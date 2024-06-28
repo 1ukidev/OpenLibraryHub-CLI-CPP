@@ -1,4 +1,4 @@
-#include "util.h"
+#include "Util.h"
 
 void Util::clean()
 {
@@ -8,8 +8,15 @@ void Util::clean()
 std::string Util::scan()
 {
     std::string input;
-    std::getline(std::cin, input);
-    return input;
+    while (true) {
+        std::getline(std::cin, input);
+        if (input.empty()) {
+            std::cout << "Tente novamente: ";
+        }
+        else {
+            return input;
+        }
+    }
 }
 
 unsigned int Util::iscan() {
@@ -19,7 +26,7 @@ unsigned int Util::iscan() {
         if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "--> ";
+            std::cout << "Tente novamente: ";
         }
         else {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

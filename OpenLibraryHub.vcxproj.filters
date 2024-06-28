@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\openlibraryhub\main.cpp">
+    <ClCompile Include="Source\OpenLibraryHub.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\openlibraryhub\home.cpp">
+    <ClCompile Include="Source\Home.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\openlibraryhub\books.cpp">
+    <ClCompile Include="Source\Books.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\openlibraryhub\util.cpp">
+    <ClCompile Include="Source\Util.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\openlibraryhub\book_entity.cpp">
+    <ClCompile Include="Source\BookEntity.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\openlibraryhub\book_dao.cpp">
+    <ClCompile Include="Source\BookDAO.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\openlibraryhub\home.h">
+    <ClInclude Include="Headers\Home.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="include\openlibraryhub\books.h">
+    <ClInclude Include="Headers\Books.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="include\openlibraryhub\util.h">
+    <ClInclude Include="Headers\Util.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="include\openlibraryhub\book_entity.h">
+    <ClInclude Include="Headers\BookEntity.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="include\openlibraryhub\book_dao.h">
+    <ClInclude Include="Headers\BookDAO.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="include\openlibraryhub\config.h">
+    <ClInclude Include="Headers\Config.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

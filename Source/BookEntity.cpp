@@ -1,4 +1,15 @@
-#include "book_entity.h"
+#include "BookEntity.h"
+
+int BookEntity::getId() const
+{
+	return this->id;
+}
+
+BookEntity& BookEntity::setId(int id)
+{
+	this->id = id;
+	return *this;
+}
 
 std::string BookEntity::getTitle() const
 {

@@ -1,5 +1,5 @@
-#include "util.h"
-#include "home.h"
+#include "Util.h"
+#include "Home.h"
 
 #include <cstdlib>
 

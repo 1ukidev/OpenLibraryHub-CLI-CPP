@@ -1,11 +1,11 @@
-﻿#include "home.h"
+﻿#include "Home.h"
 
 void Home::welcome()
 {
 	bool running = true;
 	while (running) {
-		std::cout << "Bem-vindo ao OpenLibraryHub!\n";
-		std::cout << "O que deseja fazer?\n";
+		std::cout << "Bem-vindo ao OpenLibraryHub!\n\n";
+		std::cout << "O que deseja fazer?\n\n";
 		std::cout << "1 - Livros\n";
 		std::cout << "2 - Turmas\n";
 		std::cout << "3 - Alunos\n";

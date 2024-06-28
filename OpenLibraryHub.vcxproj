@@ -71,7 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);include/openlibraryhub</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Headers</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Headers</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,6 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,20 +135,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\openlibraryhub\book_dao.cpp" />
-    <ClCompile Include="src\openlibraryhub\book_entity.cpp" />
-    <ClCompile Include="src\openlibraryhub\books.cpp" />
-    <ClCompile Include="src\openlibraryhub\home.cpp" />
-    <ClCompile Include="src\openlibraryhub\main.cpp" />
-    <ClCompile Include="src\openlibraryhub\util.cpp" />
+    <ClCompile Include="Source\BookDAO.cpp" />
+    <ClCompile Include="Source\BookEntity.cpp" />
+    <ClCompile Include="Source\Books.cpp" />
+    <ClCompile Include="Source\Home.cpp" />
+    <ClCompile Include="Source\OpenLibraryHub.cpp" />
+    <ClCompile Include="Source\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\openlibraryhub\book_dao.h" />
-    <ClInclude Include="include\openlibraryhub\book_entity.h" />
-    <ClInclude Include="include\openlibraryhub\books.h" />
-    <ClInclude Include="include\openlibraryhub\config.h" />
-    <ClInclude Include="include\openlibraryhub\home.h" />
-    <ClInclude Include="include\openlibraryhub\util.h" />
+    <ClInclude Include="Headers\BookDAO.h" />
+    <ClInclude Include="Headers\BookEntity.h" />
+    <ClInclude Include="Headers\Books.h" />
+    <ClInclude Include="Headers\Config.h" />
+    <ClInclude Include="Headers\Home.h" />
+    <ClInclude Include="Headers\Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

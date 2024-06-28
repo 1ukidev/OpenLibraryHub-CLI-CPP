@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+static const int empty = -1;
+
 namespace Util
 {
 	void clean();
