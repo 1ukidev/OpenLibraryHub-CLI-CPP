@@ -1,0 +1,58 @@
+#!/bin/sh
+set -e
+
+SCRIPT_DIR=$(dirname -- "$BASH_SOURCE")
+
+RED="\e[0;31m"
+GREEN="\e[0;32m"
+NC="\e[0m"
+
+error() {
+    echo -e "$RED* $1$NC"
+}
+
+debug() {
+    echo -e "$GREEN* $1$NC"
+}
+
+if [ "$(uname -s)" != "Linux" ]; then
+    error "Apenas Linux é suportado"
+    exit 1
+fi
+
+for cmd in tar curl; do
+    if ! command -v $cmd >/dev/null 2>&1; then
+        error "$cmd não encontrado"
+        exit 1
+    fi
+done
+
+if [ -d "$SCRIPT_DIR/lib/mysql" ]; then
+    debug "lib/mysql encontrado"
+else
+    mkdir -p $SCRIPT_DIR/lib
+
+    MACHINE_TYPE=$(uname -m)
+    case "${MACHINE_TYPE}" in
+        x86_64)
+            ARCH="x86_64"
+            ;;
+        aarch64)
+            ARCH="aarch64"
+            ;;
+        *)
+            error "Arquitetura não suportada"
+            exit 1
+            ;;
+    esac
+
+    debug "Baixando lib/mysql para ${MACHINE_TYPE} (glibc)"
+    cd $SCRIPT_DIR/lib
+    FILE="mysql-connector-c++-9.0.0-linux-glibc2.28-${ARCH}.tar.gz"
+    curl -LO "https://dev.mysql.com/get/Downloads/Connector-C++/${FILE}"
+    debug "Extraindo..."
+    tar xf ${FILE}
+    mv "mysql-connector-c++-9.0.0-linux-glibc2.28-${ARCH}" mysql
+    rm ${FILE}
+    debug "lib/mysql baixado com sucesso"
+fi

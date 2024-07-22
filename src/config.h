@@ -1,3 +1,5 @@
+// Put here your database configuration.
+
 #pragma once
 
 #include <string>

@@ -1,4 +1,2 @@
-.vs
-/OpenLibraryHub
-x64
-x86
+openlibraryhub
+lib/mysql
