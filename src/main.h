@@ -4,7 +4,7 @@
 
 static const std::string version = "0.0.1";
 
-static const int empty = -1;
+static constexpr int EMPTY = -1;
 
 namespace Util
 {
@@ -24,7 +24,7 @@ class Entity
 class BookEntity : public Entity
 {
     private:
-        int id = empty;
+        int id = EMPTY;
         std::string title;
         std::string author;
         std::string section;
@@ -80,7 +80,7 @@ namespace Books
 class ClassEntity : public Entity
 {
     private:
-        int id = empty;
+        int id = EMPTY;
         std::string name;
     public:
         ClassEntity(std::string name) {
@@ -103,7 +103,7 @@ namespace Classes
 class StudentEntity : public Entity
 {
     private:
-        int id = empty;
+        int id = EMPTY;
         std::string name;
         ClassEntity* classEntity;
     public:
@@ -131,7 +131,7 @@ namespace Students
 class LoanEntity : public Entity
 {
     private:
-        int id = empty;
+        int id = EMPTY;
         BookEntity* bookEntity;
         StudentEntity* studentEntity;
         std::string loanDate;

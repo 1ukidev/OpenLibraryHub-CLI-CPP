@@ -24,7 +24,7 @@ std::string Util::scan()
     while (true) {
         std::getline(std::cin, input);
         if (input.empty()) {
-            std::cout << "Tente novamente: ";
+            std::cerr << "Tente novamente: ";
         } else {
             return input;
         }
@@ -39,7 +39,7 @@ unsigned int Util::iscan()
         if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Tente novamente: ";
+            std::cerr << "Tente novamente: ";
         } else {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return input;
@@ -147,7 +147,7 @@ BookEntity& BookDAO::save(BookEntity& book)
         session.close();
     } catch (const Error& err) {
         std::cerr << "\nOcorreu um erro ao salvar: " << err.what() << "\n\n";
-    } catch (std::exception& ex) {
+    } catch (const std::exception& ex) {
         std::cerr << "\nSTD Exception: " << ex.what() << "\n\n";
     } catch (const char* ex) {
         std::cerr << "\nException: " << ex << "\n\n";
@@ -220,7 +220,7 @@ void Books::save()
 
     bookEntity = BookDAO::save(bookEntity);
 
-    if (bookEntity.getId() != empty) {
+    if (bookEntity.getId() != EMPTY) {
         Util::clean();
         std::cout << "Livro cadastrado com sucesso!\n\n";
     }
@@ -365,9 +365,21 @@ BookEntity* LoanEntity::getBookEntity() const
     return this->bookEntity;
 }
 
+LoanEntity& LoanEntity::setBookEntity(BookEntity* bookEntity)
+{
+    this->bookEntity = bookEntity;
+    return *this;
+}
+
 StudentEntity* LoanEntity::getStudentEntity() const
 {
     return this->studentEntity;
+}
+
+LoanEntity& LoanEntity::setStudentEntity(StudentEntity* studentEntity)
+{
+    this->studentEntity = studentEntity;
+    return *this;
 }
 
 std::string LoanEntity::getLoanDate() const
@@ -519,7 +531,7 @@ bool Home::handleOption()
             return false;
             break;
         default:
-            std::cout << "Opção desconhecida...\n\n";
+            std::cerr << "Opção desconhecida...\n\n";
             break;
     }
 

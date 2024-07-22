@@ -8,11 +8,11 @@ GREEN="\e[0;32m"
 NC="\e[0m"
 
 error() {
-    echo -e "$RED* $1$NC"
+    printf "$RED* $1$NC\n"
 }
 
 debug() {
-    echo -e "$GREEN* $1$NC"
+    printf "$GREEN* $1$NC\n"
 }
 
 if [ "$(uname -s)" != "Linux" ]; then
@@ -35,7 +35,7 @@ else
     MACHINE_TYPE=$(uname -m)
     case "${MACHINE_TYPE}" in
         x86_64)
-            ARCH="x86_64"
+            ARCH="x86-64bit"
             ;;
         aarch64)
             ARCH="aarch64"
