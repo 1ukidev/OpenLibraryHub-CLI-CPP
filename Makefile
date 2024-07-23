@@ -1,6 +1,6 @@
 CC := clang++
 CFLAGS := -O3 -march=native -std=c++17 -Wall -Wextra -pipe
-LIB := -Ilib/mysql/include -Llib/mysql/lib64 -lmysqlcppconnx
+LIB := -Iinclude -Ilib/mysql/include -Llib/mysql/lib64 -lmysqlcppconnx
 
 TARGET := openlibraryhub
 

@@ -1,2 +1,2 @@
 CompileFlags:
-    Add: [-I../lib/mysql/include, -L../lib/mysql/lib64, -lmysqlcppconnx]
+    Add: [-I../include, -I../lib/mysql/include, -L../lib/mysql/lib64, -lmysqlcppconnx]
