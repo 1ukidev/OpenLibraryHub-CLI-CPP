@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
+#include <optional>
 
 static const std::string version = "0.0.1";
 
-static constexpr int EMPTY = -1;
+static constexpr int EMPTY = 0;
 
 namespace Util
 {
@@ -16,21 +17,21 @@ namespace Util
 class Entity
 {
     public:
-        virtual int getId() const = 0;
-        virtual Entity& setId(int id) = 0;
+        virtual unsigned int getId() const = 0;
+        virtual Entity& setId(unsigned int id) = 0;
         virtual ~Entity() = default;
 };
 
 class BookEntity : public Entity
 {
     private:
-        int id = EMPTY;
+        unsigned int id = EMPTY;
         std::string title;
         std::string author;
         std::string section;
-        unsigned int pages;
-        unsigned int year;
-        unsigned int stock;
+        unsigned int pages = EMPTY;
+        unsigned int year = EMPTY;
+        unsigned int stock = EMPTY;
     public:
         BookEntity(std::string title, std::string author,
                    std::string section, unsigned int pages,
@@ -43,8 +44,10 @@ class BookEntity : public Entity
             this->stock = stock;
         }
 
-        int getId() const;
-        BookEntity& setId(int id);
+        BookEntity() {}
+
+        unsigned int getId() const;
+        BookEntity& setId(unsigned int id);
 
         std::string getTitle() const;
         BookEntity& setTitle(std::string title);
@@ -63,11 +66,14 @@ class BookEntity : public Entity
 
         unsigned int getStock() const;
         BookEntity& setStock(unsigned int stock);
+
+        std::string toString() const;
 };
 
 namespace BookDAO
 {
     BookEntity& save(BookEntity& book);
+    std::optional<BookEntity> getBookById(unsigned int id);
 }
 
 namespace Books
@@ -75,20 +81,23 @@ namespace Books
     void welcome();
     bool handleOption();
     void save();
+    void search();
 }
 
 class ClassEntity : public Entity
 {
     private:
-        int id = EMPTY;
+        unsigned int id = EMPTY;
         std::string name;
     public:
         ClassEntity(std::string name) {
             this->name = name;
         }
 
-        int getId() const;
-        ClassEntity& setId(int id);
+        ClassEntity() {}
+
+        unsigned int getId() const;
+        ClassEntity& setId(unsigned int id);
 
         std::string getName() const;
         ClassEntity& setName(std::string name);
@@ -103,7 +112,7 @@ namespace Classes
 class StudentEntity : public Entity
 {
     private:
-        int id = EMPTY;
+        unsigned int id = EMPTY;
         std::string name;
         ClassEntity* classEntity;
     public:
@@ -112,8 +121,10 @@ class StudentEntity : public Entity
             this->classEntity = classEntity;
         }
 
-        int getId() const;
-        StudentEntity& setId(int id);
+        StudentEntity() {}
+
+        unsigned int getId() const;
+        StudentEntity& setId(unsigned int id);
 
         std::string getName() const;
         StudentEntity& setName(std::string name);
@@ -131,7 +142,7 @@ namespace Students
 class LoanEntity : public Entity
 {
     private:
-        int id = EMPTY;
+        unsigned int id = EMPTY;
         BookEntity* bookEntity;
         StudentEntity* studentEntity;
         std::string loanDate;
@@ -145,8 +156,10 @@ class LoanEntity : public Entity
             this->returnDate = returnDate;
         }
 
-        int getId() const;
-        LoanEntity& setId(int id);
+        LoanEntity() {}
+
+        unsigned int getId() const;
+        LoanEntity& setId(unsigned int id);
 
         BookEntity* getBookEntity() const;
         LoanEntity& setBookEntity(BookEntity* bookEntity);

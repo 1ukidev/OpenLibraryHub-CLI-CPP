@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <limits>
+#include <optional>
 
 #include <mysqlx/xdevapi.h>
 
@@ -47,12 +48,12 @@ unsigned int Util::iscan()
     }
 }
 
-int BookEntity::getId() const
+unsigned int BookEntity::getId() const
 {
     return this->id;
 }
 
-BookEntity& BookEntity::setId(int id)
+BookEntity& BookEntity::setId(unsigned int id)
 {
     this->id = id;
     return *this;
@@ -124,6 +125,17 @@ BookEntity& BookEntity::setStock(unsigned int stock)
     return *this;
 }
 
+std::string BookEntity::toString() const
+{
+    return "Id: " + std::to_string(this->id) + "\n"
+           + "Título: " + this->title + "\n"
+           + "Autor: " + this->author + "\n"
+           + "Seção: " + this->section + "\n"
+           + "Páginas: " + std::to_string(this->pages) + "\n"
+           + "Ano: " + std::to_string(this->year) + "\n"
+           + "Estoque: " + std::to_string(this->stock) + "\n";
+}
+
 BookEntity& BookDAO::save(BookEntity& book)
 {
     try {
@@ -141,7 +153,7 @@ BookEntity& BookDAO::save(BookEntity& book)
         RowResult rowResult = session.sql("SELECT LAST_INSERT_ID()").execute();
         Row row = rowResult.fetchOne();
         if (!row.isNull()) {
-            book.setId(row[0]);
+            book.setId(row[0].get<unsigned int>());
         }
 
         session.close();
@@ -154,6 +166,46 @@ BookEntity& BookDAO::save(BookEntity& book)
     }
 
     return book;
+}
+
+std::optional<BookEntity> BookDAO::getBookById(unsigned int id)
+{
+    try {
+        Session session(db_url, db_port, db_user, db_password);
+        Schema schema = session.getSchema(db_schema);
+        Table table = schema.getTable("books");
+
+        RowResult rowResult = table.select("id", "title", "author",
+                                           "section", "pages", "year",
+                                           "stock")
+                                   .where("id = :id")
+                                   .bind("id", id)
+                                   .execute();
+
+        Row row = rowResult.fetchOne();
+        if (!row.isNull()) {
+            BookEntity book;
+            book.setId(row[0].get<unsigned int>())
+                .setTitle(row[1].get<std::string>())
+                .setAuthor(row[2].get<std::string>())
+                .setSection(row[3].get<std::string>())
+                .setPages(row[4].get<unsigned int>())
+                .setYear(row[5].get<unsigned int>())
+                .setStock(row[6].get<unsigned int>());
+            session.close();
+            return book;
+        }
+
+        session.close();
+    } catch (const Error& err) {
+        std::cerr << "\nOcorreu um erro ao buscar: " << err.what() << "\n\n";
+    } catch (const std::exception& ex) {
+        std::cerr << "\nSTD Exception: " << ex.what() << "\n\n";
+    } catch (const char* ex) {
+        std::cerr << "\nException: " << ex << "\n\n";
+    }
+
+    return std::nullopt;
 }
 
 void Books::welcome()
@@ -181,6 +233,10 @@ bool Books::handleOption()
         // 1 - Cadastrar livro
         case 1:
             Books::save();
+            break;
+        // 4 - Buscar livro
+        case 4:
+            Books::search();
             break;
         // 6 - Voltar
         case 6:
@@ -214,24 +270,38 @@ void Books::save()
     std::cout << "Digite a quantidade em estoque: ";
     unsigned int stock = Util::iscan();
 
-    BookEntity bookEntity(title, author,
-                          section, pages,
-                          year, stock);
+    BookEntity book(title, author, section, pages, year, stock);
 
-    bookEntity = BookDAO::save(bookEntity);
+    book = BookDAO::save(book);
 
-    if (bookEntity.getId() != EMPTY) {
+    if (book.getId() != EMPTY) {
         Util::clean();
         std::cout << "Livro cadastrado com sucesso!\n\n";
+    } else {
+        std::cerr << "Erro ao cadastrar livro...\n\n";
     }
 }
 
-int ClassEntity::getId() const
+void Books::search()
+{
+    std::cout << "Digite o id do livro: ";
+    unsigned int id = Util::iscan();
+    auto bookOpt = BookDAO::getBookById(id);
+
+    if (bookOpt.has_value()) {
+        Util::clean();
+        std::cout << bookOpt.value().toString() << "\n";
+    } else {
+        std::cerr << "\nLivro não encontrado...\n\n";
+    }
+}
+
+unsigned int ClassEntity::getId() const
 {
     return this->id;
 }
 
-ClassEntity& ClassEntity::setId(int id)
+ClassEntity& ClassEntity::setId(unsigned int id)
 {
     this->id = id;
     return *this;
@@ -282,12 +352,12 @@ bool Classes::handleOption()
     return true;
 }
 
-int StudentEntity::getId() const
+unsigned int StudentEntity::getId() const
 {
     return this->id;
 }
 
-StudentEntity& StudentEntity::setId(int id)
+StudentEntity& StudentEntity::setId(unsigned int id)
 {
     this->id = id;
     return *this;
@@ -349,12 +419,12 @@ bool Students::handleOption()
     return true;
 }
 
-int LoanEntity::getId() const
+unsigned int LoanEntity::getId() const
 {
     return this->id;
 }
 
-LoanEntity& LoanEntity::setId(int id)
+LoanEntity& LoanEntity::setId(unsigned int id)
 {
     this->id = id;
     return *this;
