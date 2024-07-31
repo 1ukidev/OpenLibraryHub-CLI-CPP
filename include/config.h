@@ -5,8 +5,8 @@
 
 #include <string>
 
-static const std::string db_url = "localhost";
-static constexpr unsigned int db_port = 33060;
-static const std::string db_user = "root";
-static const std::string db_password = "123456";
-static const std::string db_schema = "openlibraryhub";
+static const std::string DB_URL = "localhost";
+static constexpr unsigned int DB_PORT = 33060;
+static const std::string DB_USER = "root";
+static const std::string DB_PASSWORD = "123456";
+static const std::string DB_SCHEMA = "openlibraryhub";

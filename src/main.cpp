@@ -48,99 +48,11 @@ unsigned int Util::iscan()
     }
 }
 
-unsigned int BookEntity::getId() const
-{
-    return this->id;
-}
-
-BookEntity& BookEntity::setId(unsigned int id)
-{
-    this->id = id;
-    return *this;
-}
-
-std::string BookEntity::getTitle() const
-{
-    return this->title;
-}
-
-BookEntity& BookEntity::setTitle(std::string title)
-{
-    this->title = title;
-    return *this;
-}
-
-std::string BookEntity::getAuthor() const
-{
-    return this->author;
-}
-
-BookEntity& BookEntity::setAuthor(std::string author)
-{
-    this->author = author;
-    return *this;
-}
-
-std::string BookEntity::getSection() const
-{
-    return this->section;
-}
-
-BookEntity& BookEntity::setSection(std::string section)
-{
-    this->section = section;
-    return *this;
-}
-
-unsigned int BookEntity::getPages() const
-{
-    return this->pages;
-}
-
-BookEntity& BookEntity::setPages(unsigned int pages)
-{
-    this->pages = pages;
-    return *this;
-}
-
-unsigned int BookEntity::getYear() const
-{
-    return this->year;
-}
-
-BookEntity& BookEntity::setYear(unsigned int year)
-{
-    this->year = year;
-    return *this;
-}
-
-unsigned int BookEntity::getStock() const
-{
-    return this->stock;
-}
-
-BookEntity& BookEntity::setStock(unsigned int stock)
-{
-    this->stock = stock;
-    return *this;
-}
-
-std::string BookEntity::toString() const
-{
-    return "Id: " + std::to_string(this->id) + "\n"
-           + "Título: " + this->title + "\n"
-           + "Autor: " + this->author + "\n"
-           + "Seção: " + this->section + "\n"
-           + "Páginas: " + std::to_string(this->pages) + "\n"
-           + "Ano: " + std::to_string(this->year) + "\n"
-           + "Estoque: " + std::to_string(this->stock) + "\n";
-}
-
 BookEntity& BookDAO::save(BookEntity& book)
 {
     try {
-        Session session(db_url, db_port, db_user, db_password);
-        Schema schema = session.getSchema(db_schema);
+        Session session(DB_URL, DB_PORT, DB_USER, DB_PASSWORD);
+        Schema schema = session.getSchema(DB_SCHEMA);
         Table table = schema.getTable("books");
 
         Result result = table.insert("title", "author", "section",
@@ -171,8 +83,8 @@ BookEntity& BookDAO::save(BookEntity& book)
 std::optional<BookEntity> BookDAO::getBookById(unsigned int id)
 {
     try {
-        Session session(db_url, db_port, db_user, db_password);
-        Schema schema = session.getSchema(db_schema);
+        Session session(DB_URL, DB_PORT, DB_USER, DB_PASSWORD);
+        Schema schema = session.getSchema(DB_SCHEMA);
         Table table = schema.getTable("books");
 
         RowResult rowResult = table.select("id", "title", "author",
@@ -272,7 +184,7 @@ void Books::save()
 
     BookEntity book(title, author, section, pages, year, stock);
 
-    book = BookDAO::save(book);
+    BookDAO::save(book);
 
     if (book.getId() != EMPTY) {
         Util::clean();
@@ -290,32 +202,10 @@ void Books::search()
 
     if (bookOpt.has_value()) {
         Util::clean();
-        std::cout << bookOpt.value().toString() << "\n";
+        std::cout << bookOpt.value().toString() << '\n';
     } else {
         std::cerr << "\nLivro não encontrado...\n\n";
     }
-}
-
-unsigned int ClassEntity::getId() const
-{
-    return this->id;
-}
-
-ClassEntity& ClassEntity::setId(unsigned int id)
-{
-    this->id = id;
-    return *this;
-}
-
-std::string ClassEntity::getName() const
-{
-    return this->name;
-}
-
-ClassEntity& ClassEntity::setName(std::string name)
-{
-    this->name = name;
-    return *this;
 }
 
 void Classes::welcome()
@@ -352,39 +242,6 @@ bool Classes::handleOption()
     return true;
 }
 
-unsigned int StudentEntity::getId() const
-{
-    return this->id;
-}
-
-StudentEntity& StudentEntity::setId(unsigned int id)
-{
-    this->id = id;
-    return *this;
-}
-
-std::string StudentEntity::getName() const
-{
-    return this->name;
-}
-
-StudentEntity& StudentEntity::setName(std::string name)
-{
-    this->name = name;
-    return *this;
-}
-
-ClassEntity* StudentEntity::getClassEntity() const
-{
-    return this->classEntity;
-}
-
-StudentEntity& StudentEntity::setClassEntity(ClassEntity* classEntity)
-{
-    this->classEntity = classEntity;
-    return *this;
-}
-
 void Students::welcome()
 {
     bool running = true;
@@ -417,61 +274,6 @@ bool Students::handleOption()
     }
 
     return true;
-}
-
-unsigned int LoanEntity::getId() const
-{
-    return this->id;
-}
-
-LoanEntity& LoanEntity::setId(unsigned int id)
-{
-    this->id = id;
-    return *this;
-}
-
-BookEntity* LoanEntity::getBookEntity() const
-{
-    return this->bookEntity;
-}
-
-LoanEntity& LoanEntity::setBookEntity(BookEntity* bookEntity)
-{
-    this->bookEntity = bookEntity;
-    return *this;
-}
-
-StudentEntity* LoanEntity::getStudentEntity() const
-{
-    return this->studentEntity;
-}
-
-LoanEntity& LoanEntity::setStudentEntity(StudentEntity* studentEntity)
-{
-    this->studentEntity = studentEntity;
-    return *this;
-}
-
-std::string LoanEntity::getLoanDate() const
-{
-    return this->loanDate;
-}
-
-LoanEntity& LoanEntity::setLoanDate(std::string loanDate)
-{
-    this->loanDate = loanDate;
-    return *this;
-}
-
-std::string LoanEntity::getReturnDate() const
-{
-    return this->returnDate;
-}
-
-LoanEntity& LoanEntity::setReturnDate(std::string returnDate)
-{
-    this->returnDate = returnDate;
-    return *this;
 }
 
 void Loans::welcome()
@@ -548,7 +350,7 @@ void Others::about()
     std::cout << "Desenvolvido por: 1ukidev\n";
     std::cout << "GitHub: https://github.com/1ukidev/OpenLibraryHub-CLI-CPP\n";
     std::cout << "Licença: GPL-3.0\n";
-    std::cout << "Versão: " << version << "\n\n";
+    std::cout << "Versão: " << VERSION << "\n\n";
 }
 
 void Home::welcome()
