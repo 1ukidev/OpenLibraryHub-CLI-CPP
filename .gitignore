@@ -1,2 +1,3 @@
 openlibraryhub
 lib/mysql
+*.o
