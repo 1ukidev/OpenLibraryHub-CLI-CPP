@@ -1,4 +1,4 @@
--- Script to create the database and tables for the project.
+-- Script para criar o banco de dados e as tabelas necessárias
 
 CREATE DATABASE IF NOT EXISTS `openlibraryhub`;
 

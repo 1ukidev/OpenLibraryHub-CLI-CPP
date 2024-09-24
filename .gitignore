@@ -1,3 +1,10 @@
-openlibraryhub
-lib/mysql
-*.o
+# Build
+build
+cmake-build-debug
+cmake-build-release
+
+# JetBrains
+.idea
+
+# Outros
+.cache

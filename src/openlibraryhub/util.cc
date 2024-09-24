@@ -1,15 +1,15 @@
-#include <string>
 #include <iostream>
+#include <string>
 #include <limits>
 
 #include "util.h"
 
-void Util::clean()
+void olh::util::clean()
 {
 	std::cout << "\033c" << std::flush;
 }
 
-std::string Util::scan()
+std::string olh::util::scan()
 {
 	std::string input;
 	while (true) {
@@ -24,7 +24,7 @@ std::string Util::scan()
 	}
 }
 
-unsigned int Util::iscan()
+unsigned int olh::util::iscan()
 {
 	unsigned int input;
 	while (true) {
