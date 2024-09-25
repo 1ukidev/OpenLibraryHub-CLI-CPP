@@ -3,12 +3,12 @@
 
 #include <cstdlib>
 
-#include "util.h"
-#include "screens/home.h"
+#include "util.hpp"
+#include "screens/home.hpp"
 
 int main()
 {
-	olh::util::clean();
-	olh::home::display();
-	return EXIT_SUCCESS;
+    olh::util::clean();
+    olh::home::display();
+    return EXIT_SUCCESS;
 }

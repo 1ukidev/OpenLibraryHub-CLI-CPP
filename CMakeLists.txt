@@ -7,33 +7,36 @@ project(openlibraryhub
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(openlibraryhub
-    "src/main.cc"
-    "src/openlibraryhub/util.cc"
-    "src/openlibraryhub/database.cc"
-    "src/openlibraryhub/entities/book_entity.cc"
-    "src/openlibraryhub/screens/home.cc"
-    "src/openlibraryhub/screens/others.cc"
-    "src/openlibraryhub/screens/books.cc"
-    "src/openlibraryhub/dao/book_dao.cc"
-    "include/openlibraryhub/util.h"
-    "include/openlibraryhub/database.h"
-    "include/openlibraryhub/entities/entity.h"
-    "include/openlibraryhub/entities/book_entity.h"
-    "include/openlibraryhub/screens/home.h"
-    "include/openlibraryhub/screens/others.h"
-    "include/openlibraryhub/screens/books.h"
-    "include/openlibraryhub/dao/dao.h"
-    "include/openlibraryhub/dao/book_dao.h"
+    "src/main.cpp"
+    "src/olh/util.cpp"
+    "src/olh/database.cpp"
+    "src/olh/entities/book_entity.cpp"
+    "src/olh/screens/home.cpp"
+    "src/olh/screens/others.cpp"
+    "src/olh/screens/books.cpp"
+    "src/olh/dao/book_dao.cpp"
+    "include/olh/util.hpp"
+    "include/olh/database.hpp"
+    "include/olh/entities/entity.hpp"
+    "include/olh/entities/book_entity.hpp"
+    "include/olh/screens/home.hpp"
+    "include/olh/screens/others.hpp"
+    "include/olh/screens/books.hpp"
+    "include/olh/dao/dao.hpp"
+    "include/olh/dao/book_dao.hpp"
 )
 
-target_include_directories(openlibraryhub PRIVATE include/openlibraryhub)
+target_include_directories(openlibraryhub PRIVATE include/olh)
 
-find_package(Boost CONFIG REQUIRED COMPONENTS headers charconv)
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
+
+find_package(Boost CONFIG REQUIRED COMPONENTS charconv)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 target_link_libraries(openlibraryhub PRIVATE
-    Boost::headers
     Boost::charconv
     Threads::Threads
     OpenSSL::SSL
