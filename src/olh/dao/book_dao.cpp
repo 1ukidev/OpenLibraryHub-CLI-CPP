@@ -3,15 +3,28 @@
 #include <boost/mysql/statement.hpp>
 #include <boost/mysql/results.hpp>
 
+#include "config.hpp"
 #include "dao/book_dao.hpp"
 #include "database.hpp"
+#include "db_config.hpp"
+#include "entities/book_entity.hpp"
 
 void olh::book_dao::save(book_entity& entity)
 {
-    olh::database db;
+    config cfg;
+
+    if (!cfg.load()) {
+        std::cerr << "Erro ao carregar arquivo de configuração\n";
+        return;
+    }
+
+    db_config dbc;
+    cfg.put_database(dbc);
+
+    database db;
 
     try {
-        db.connect("127.0.0.1", 3306, "smt", "123456", "openlibraryhub");
+        db.connect(dbc.host, dbc.port, dbc.user, dbc.password, dbc.database);
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return;

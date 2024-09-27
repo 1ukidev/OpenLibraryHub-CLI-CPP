@@ -10,6 +10,7 @@ add_executable(openlibraryhub
     "src/main.cpp"
     "src/olh/util.cpp"
     "src/olh/database.cpp"
+    "src/olh/config.cpp"
     "src/olh/entities/book_entity.cpp"
     "src/olh/screens/home.cpp"
     "src/olh/screens/others.cpp"
@@ -17,6 +18,8 @@ add_executable(openlibraryhub
     "src/olh/dao/book_dao.cpp"
     "include/olh/util.hpp"
     "include/olh/database.hpp"
+    "include/olh/config.hpp"
+    "include/olh/db_config.hpp"
     "include/olh/entities/entity.hpp"
     "include/olh/entities/book_entity.hpp"
     "include/olh/screens/home.hpp"
@@ -28,9 +31,9 @@ add_executable(openlibraryhub
 
 target_include_directories(openlibraryhub PRIVATE include/olh)
 
-set(Boost_USE_STATIC_LIBS OFF) 
-set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME OFF) 
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 
 find_package(Boost CONFIG REQUIRED COMPONENTS charconv)
 find_package(Threads REQUIRED)
