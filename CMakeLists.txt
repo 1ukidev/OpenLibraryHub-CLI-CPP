@@ -35,11 +35,12 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(Boost CONFIG REQUIRED COMPONENTS charconv)
+find_package(Boost CONFIG REQUIRED COMPONENTS headers charconv)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 target_link_libraries(openlibraryhub PRIVATE
+    Boost::headers
     Boost::charconv
     Threads::Threads
     OpenSSL::SSL
