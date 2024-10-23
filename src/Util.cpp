@@ -1,21 +1,22 @@
+#include "Util.hpp"
+
 #include <iostream>
 #include <string>
 #include <limits>
 
-#include "util.hpp"
-
-void olh::util::clean()
+void Util::clean()
 {
     std::cout << "\033c" << std::flush;
 }
 
-std::string olh::util::scan()
+std::string Util::scan()
 {
     std::string input;
     while (true) {
         if (!std::getline(std::cin, input)) {
             std::cerr << "Erro ao ler a entrada.\n";
         }
+
         if (input.empty()) {
             std::cerr << "Tente novamente: ";
         } else {
@@ -24,18 +25,21 @@ std::string olh::util::scan()
     }
 }
 
-unsigned int olh::util::uiscan()
+unsigned int Util::uiscan()
 {
-    unsigned int input;
+    int input;
     while (true) {
         std::cin >> input;
+
         if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cerr << "Tente novamente: ";
+            std::cerr << "Entrada inválida. Tente novamente: ";
+        } else if (input < 0) {
+            std::cerr << "O número não pode ser negativo. Tente novamente: ";
         } else {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            return input;
+            return static_cast<unsigned int>(input);
         }
     }
 }

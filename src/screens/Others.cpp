@@ -1,9 +1,9 @@
+#include "screens/Others.hpp"
+#include "Util.hpp"
+
 #include <iostream>
 
-#include "screens/others.hpp"
-#include "util.hpp"
-
-void olh::others::display()
+void Others::display()
 {
     bool running = true;
     while (running) {
@@ -11,14 +11,14 @@ void olh::others::display()
         std::cout << "2 - Sair\n";
         std::cout << "--> ";
 
-        running = handle_option();
+        running = handleOption();
     }
 }
 
-bool olh::others::handle_option()
+bool Others::handleOption()
 {
-    unsigned int option = olh::util::uiscan();
-    olh::util::clean();
+    unsigned int option = Util::uiscan();
+    Util::clean();
 
     switch (option) {
         // 1 - Sobre
@@ -37,7 +37,7 @@ bool olh::others::handle_option()
     return true;
 }
 
-void olh::others::about()
+void Others::about()
 {
     std::cout << "OpenLibraryHub é um sistema de gerenciamento de bibliotecas.\n";
     std::cout << "Desenvolvido por: 1ukidev\n";

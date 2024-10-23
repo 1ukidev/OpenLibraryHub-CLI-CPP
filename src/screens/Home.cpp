@@ -1,11 +1,11 @@
+#include "screens/Home.hpp"
+#include "screens/Books.hpp"
+#include "screens/Others.hpp"
+#include "Util.hpp"
+
 #include <iostream>
 
-#include "screens/home.hpp"
-#include "screens/books.hpp"
-#include "screens/others.hpp"
-#include "util.hpp"
-
-void olh::home::display()
+void Home::display()
 {
     bool running = true;
     while (running) {
@@ -19,23 +19,23 @@ void olh::home::display()
         std::cout << "6 - Sair\n";
         std::cout << "--> ";
 
-        running = handle_option();
+        running = handleOption();
     }
 }
 
-bool olh::home::handle_option()
+bool Home::handleOption()
 {
-    unsigned int option = olh::util::uiscan();
-    olh::util::clean();
+    unsigned int option = Util::uiscan();
+    Util::clean();
 
     switch (option) {
         // 1 - Livros
         case 1:
-            olh::books::display();
+            Books::display();
             break;
         // 5 - Outros
         case 5:
-            olh::others::display();
+            Others::display();
             break;
         // 6 - Sair
         case 6:

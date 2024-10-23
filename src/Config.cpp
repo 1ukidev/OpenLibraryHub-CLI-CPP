@@ -1,38 +1,38 @@
+#include "Config.hpp"
+#include "DbConfig.hpp"
+
 #include <filesystem>
 #include <iostream>
 #include <string>
 #include <fstream>
 
-#include "config.hpp"
-#include "db_config.hpp"
-
-std::string olh::config::trim(const std::string& str)
+std::string Config::trim(const std::string& str)
 {
     const size_t first = str.find_first_not_of(" \t\n\r");
     const size_t last = str.find_last_not_of(" \t\n\r");
     return first == std::string::npos || last == std::string::npos ? "" : str.substr(first, last - first + 1);
 }
 
-bool olh::config::load()
+bool Config::load()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    const std::string home_path = std::getenv("HOMEPATH");
+    const std::string homePath = std::getenv("HOMEPATH");
 #else
-    const std::string home_path = std::getenv("HOME");
+    const std::string homePath = std::getenv("HOME");
 #endif
 
-    const std::string file_path = home_path + "/olh.properties";
+    const std::string filePath = homePath + "/olh.properties";
 
-    if (!std::filesystem::exists(file_path)) {
-        std::ofstream new_file(file_path);
-        if (!new_file) {
-            std::cerr << "Falha ao criar arquivo: " << file_path << '\n';
+    if (!std::filesystem::exists(filePath)) {
+        std::ofstream newFile(filePath);
+        if (!newFile) {
+            std::cerr << "Falha ao criar arquivo: " << filePath << '\n';
             return false;
         }
-        new_file.close();
+        newFile.close();
     }
 
-    std::ifstream file(file_path);
+    std::ifstream file(filePath);
     if (!file.is_open()) {
         return false;
     }
@@ -56,13 +56,13 @@ bool olh::config::load()
     return true;
 }
 
-std::string olh::config::get(const std::string& key, const std::string& default_value) const
+std::string Config::get(const std::string& key, const std::string& defaultValue) const
 {
     const auto it = config.find(key);
-    return it != config.end() ? it->second : default_value;
+    return it != config.end() ? it->second : defaultValue;
 }
 
-void olh::config::put_database(db_config& dbc)
+void Config::putDatabase(DbConfig& dbc)
 {
     const std::string host = get("db.host");
     const std::string port = get("db.port");
@@ -71,12 +71,12 @@ void olh::config::put_database(db_config& dbc)
     const std::string database = get("db.database");
 
     if (host.empty() || port.empty() || user.empty() || password.empty() || database.empty()) {
-        std::cerr << "Configurações de banco de dados inválida\n";
+        std::cerr << "Configuração de banco de dados inválida.\n";
         return;
     }
 
     dbc.host = host;
-    dbc.port = static_cast<unsigned int>(std::stoul(port));
+    dbc.port = port;
     dbc.user = user;
     dbc.password = password;
     dbc.database = database;
