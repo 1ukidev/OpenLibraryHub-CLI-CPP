@@ -1,7 +1,10 @@
 #include "screens/Home.hpp"
 #include "screens/Books.hpp"
+#include "screens/Classes.hpp"
+#include "screens/Loans.hpp"
 #include "screens/Others.hpp"
 #include "Util.hpp"
+#include "screens/Students.hpp"
 
 #include <iostream>
 
@@ -10,6 +13,7 @@ void Home::display()
     bool running = true;
     while (running) {
         std::cout << "Bem-vindo ao OpenLibraryHub!\n\n";
+        std::cout << Util::greet() << "\n\n";
         std::cout << "O que deseja fazer?\n\n";
         std::cout << "1 - Livros\n";
         std::cout << "2 - Turmas\n";
@@ -32,6 +36,18 @@ bool Home::handleOption()
         // 1 - Livros
         case 1:
             Books::display();
+            break;
+        // 2 - Turmas
+        case 2:
+            Classes::display();
+            break;
+        // 3 - Alunos
+        case 3:
+            Students::display();
+            break;
+        // 4- Empréstimos
+        case 4:
+            Loans::display();
             break;
         // 5 - Outros
         case 5:

@@ -1,8 +1,27 @@
 #include "Util.hpp"
 
+#include <chrono>
+#include <ctime>
 #include <iostream>
 #include <string>
 #include <limits>
+
+std::string Util::greet()
+{
+    auto now = std::chrono::system_clock::now();
+    std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
+    std::tm localTime = *std::localtime(&nowTime);
+
+    int hours = localTime.tm_hour;
+
+    if (hours >= 6 && hours < 12) {
+        return "Bom dia!";
+    } else if (hours >= 12 && hours < 18) {
+        return "Boa tarde!";
+    } else {
+        return "Boa noite!";
+    }
+}
 
 void Util::clean()
 {

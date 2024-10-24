@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `livros` (
 );
 
 DROP TABLE IF EXISTS `emprestimos`;
-DROP TABLE IF EXISTS `estudantes`;
+DROP TABLE IF EXISTS `alunos`;
 DROP TABLE IF EXISTS `turmas`;
 
 CREATE TABLE IF NOT EXISTS `turmas` (
@@ -25,19 +25,19 @@ CREATE TABLE IF NOT EXISTS `turmas` (
     `nome` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `estudantes` (
+CREATE TABLE IF NOT EXISTS `alunos` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `nome` VARCHAR(255) NOT NULL,
-    `turma_id` INT UNSIGNED NOT NULL,
-    FOREIGN KEY (`turma_id`) REFERENCES `turmas`(`id`)
+    `turma` INT UNSIGNED NOT NULL,
+    FOREIGN KEY (`turma`) REFERENCES `turmas`(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `emprestimos` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    `estudante_id` INT UNSIGNED NOT NULL,
-    `livro_id` INT UNSIGNED NOT NULL,
+    `aluno` INT UNSIGNED NOT NULL,
+    `livro` INT UNSIGNED NOT NULL,
     `data_emprestimo` DATE NOT NULL,
     `data_devolucao` DATE NOT NULL,
-    FOREIGN KEY (`estudante_id`) REFERENCES `estudantes`(`id`),
-    FOREIGN KEY (`livro_id`) REFERENCES `livros`(`id`)
+    FOREIGN KEY (`aluno`) REFERENCES `alunos`(`id`),
+    FOREIGN KEY (`livro`) REFERENCES `livros`(`id`)
 );

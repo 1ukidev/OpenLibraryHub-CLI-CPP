@@ -1,8 +1,7 @@
-#include "dao/BookDAO.hpp"
+#include "dao/ClassDAO.hpp"
 #include "Database.hpp"
 #include "DatabaseManager.hpp"
 #include "DbConfig.hpp"
-#include "entities/BookEntity.hpp"
 
 #include <boost/mysql/statement.hpp>
 #include <boost/mysql/results.hpp>
@@ -11,7 +10,7 @@
 #include <string>
 #include <vector>
 
-bool BookDAO::save(BookEntity& entity)
+bool ClassDAO::save(ClassEntity& entity)
 {
     Database db;
     DbConfig dbc;
@@ -22,12 +21,11 @@ bool BookDAO::save(BookEntity& entity)
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
-            "INSERT INTO livros (titulo, autor, secao, paginas, ano, estoque) VALUES (?, ?, ?, ?, ?, ?)"
+            "INSERT INTO turmas (nome) VALUES (?)"
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getTitle(), entity.getAuthor(), entity.getSection(),
-                              entity.getPages(), entity.getYear(), entity.getStock()), results);
+        db.connection.execute(stmt.bind(entity.getName()), results);
 
         if (results.affected_rows() == 0) {
             return false;
@@ -40,7 +38,7 @@ bool BookDAO::save(BookEntity& entity)
     return true;
 }
 
-bool BookDAO::update(BookEntity& entity)
+bool ClassDAO::update(ClassEntity& entity)
 {
     Database db;
     DbConfig dbc;
@@ -51,12 +49,11 @@ bool BookDAO::update(BookEntity& entity)
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
-            "UPDATE livros SET titulo = ?, autor = ?, secao = ?, paginas = ?, ano = ?, estoque = ? WHERE id = ?"
+            "UPDATE turmas SET nome = ? WHERE id = ?"
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getTitle(), entity.getAuthor(), entity.getSection(),
-                              entity.getPages(), entity.getYear(), entity.getStock(), entity.getId()), results);
+        db.connection.execute(stmt.bind(entity.getName(), entity.getId()), results);
 
         if (results.affected_rows() == 0) {
             return false;
@@ -69,7 +66,7 @@ bool BookDAO::update(BookEntity& entity)
     return true;
 }
 
-bool BookDAO::_delete(const std::string& where)
+bool ClassDAO::_delete(const std::string& where)
 {
     Database db;
     DbConfig dbc;
@@ -80,7 +77,7 @@ bool BookDAO::_delete(const std::string& where)
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
-            "DELETE FROM livros WHERE " + where
+            "DELETE FROM turmas WHERE " + where
         );
 
         boost::mysql::results results;
@@ -97,7 +94,7 @@ bool BookDAO::_delete(const std::string& where)
     return true;
 }
 
-std::vector<BookEntity> BookDAO::search(const std::string& where)
+std::vector<ClassEntity> ClassDAO::search(const std::string& where)
 {
     Database db;
     DbConfig dbc;
@@ -106,33 +103,28 @@ std::vector<BookEntity> BookDAO::search(const std::string& where)
         return {};
     }
 
-    std::vector<BookEntity> books;
+    std::vector<ClassEntity> entities;
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
-            "SELECT id, titulo, autor, secao, paginas, ano, estoque FROM livros WHERE " + where
+            "SELECT * FROM turmas WHERE " + where
         );
 
         boost::mysql::results results;
         db.connection.execute(stmt.bind(), results);
 
         for (const auto& row : results.rows()) {
-            BookEntity book;
+            ClassEntity _class;
 
-            book.setId(row[0].as_uint64());
-            book.setTitle(row[1].as_string());
-            book.setAuthor(row[2].as_string());
-            book.setSection(row[3].as_string());
-            book.setPages(row[4].as_uint64());
-            book.setYear(row[5].as_uint64());
-            book.setStock(row[6].as_uint64());
+            _class.setId(row[0].as_uint64());
+            _class.setName(row[1].as_string());
 
-            books.push_back(book);
+            entities.push_back(_class);
         }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return {};
     }
 
-    return books;
+    return entities;
 }

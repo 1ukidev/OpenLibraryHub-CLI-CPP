@@ -1,6 +1,7 @@
 #include "DatabaseManager.hpp"
 #include "Config.hpp"
 
+#include <exception>
 #include <iostream>
 
 bool DatabaseManager::initDatabase(Database& db, DbConfig& dbc)

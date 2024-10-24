@@ -12,8 +12,8 @@ public:
     BookDAO() = default;
     ~BookDAO() = default;
 
-    void save(BookEntity& entity) override;
-    void update(BookEntity& entity) override;
+    bool save(BookEntity& entity) override;
+    bool update(BookEntity& entity) override;
     bool _delete(const std::string& where) override;
     std::vector<BookEntity> search(const std::string& where) override;
 };

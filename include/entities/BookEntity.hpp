@@ -18,8 +18,8 @@ private:
     unsigned int stock;
 
 public:
-    BookEntity(std::string title, std::string author,
-               std::string section, unsigned int pages,
+    BookEntity(std::string_view title, std::string_view author,
+               std::string_view section, unsigned int pages,
                unsigned int year, unsigned int stock);
 
     BookEntity() = default;
