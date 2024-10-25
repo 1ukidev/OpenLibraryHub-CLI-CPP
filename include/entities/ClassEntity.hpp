@@ -14,6 +14,7 @@ private:
 
 public:
     ClassEntity(std::string_view name);
+    ClassEntity(unsigned long id);
 
     ClassEntity() = default;
     ~ClassEntity() = default;

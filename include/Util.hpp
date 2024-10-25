@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <string>
 
 namespace Util
@@ -8,4 +9,6 @@ namespace Util
     void clean();
     std::string scan();
     unsigned int uiscan();
+    unsigned long ulscan();
+    std::chrono::system_clock::time_point tpscan();
 }

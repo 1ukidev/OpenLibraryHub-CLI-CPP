@@ -5,6 +5,8 @@
 #include "entities/StudentEntity.hpp"
 
 #include <iostream>
+#include <string>
+#include <vector>
 
 void Students::display()
 {
@@ -68,10 +70,7 @@ void Students::save()
     std::cout << "Digite o id da turma: ";
     unsigned int classId = Util::uiscan();
 
-    ClassEntity classEntity;
-    classEntity.setId(classId);
-
-    StudentEntity student(name, classEntity);
+    StudentEntity student(name, ClassEntity(classId));
 
     StudentDAO dao;
 
@@ -85,24 +84,84 @@ void Students::save()
 
 void Students::update()
 {
-    // TODO
-    return;
+    std::cout << "where: ";
+    std::string where = Util::scan();
+
+    StudentDAO dao;
+    std::vector<StudentEntity> students = dao.search(where);
+
+    if (students.empty()) {
+        std::cerr << "Nenhum aluno encontrado...\n\n";
+        return;
+    } else if (students.size() > 1) {
+        std::cerr << "Mais de um aluno encontrado...\n\n";
+        return;
+    }
+
+    StudentEntity student = students[0];
+
+    std::cout << "Digite o novo nome do aluno: ";
+    std::string name = Util::scan();
+
+    std::cout << "Digite o novo id da turma: ";
+    unsigned int classId = Util::uiscan();
+
+    student.setName(name);
+    student.setClassEntity(ClassEntity(classId));
+
+    if (!dao.update(student)) {
+        std::cerr << "Erro ao atualizar aluno...\n\n";
+    } else {
+        Util::clean();
+        std::cout << "Aluno atualizado com sucesso!\n\n";
+    }
 }
 
 void Students::_delete()
 {
-    // TODO
-    return;
+    std::cout << "where: ";
+    std::string where = Util::scan();
+
+    StudentDAO dao;
+
+    if (!dao._delete(where)) {
+        std::cerr << "Erro ao excluir aluno...\n\n";
+    } else {
+        Util::clean();
+        std::cout << "Aluno excluído com sucesso!\n\n";
+    }
 }
 
 void Students::search()
 {
-    // TOOD
-    return;
+    std::cout << "where: ";
+    std::string where = Util::scan();
+
+    StudentDAO dao;
+    std::vector<StudentEntity> students = dao.search(where);
+
+    if (students.empty()) {
+        std::cerr << "Nenhum aluno encontrado...\n\n";
+        return;
+    }
+
+    Util::clean();
+    for (const auto& student : students) {
+        std::cout << student.toString() << '\n';
+    }
 }
 
 void Students::list()
 {
-    // TODO
-    return;
+    StudentDAO dao;
+    std::vector<StudentEntity> students = dao.search("1=1");
+
+    if (students.empty()) {
+        std::cerr << "Nenhum aluno encontrado...\n\n";
+        return;
+    }
+
+    for (const auto& student : students) {
+        std::cout << student.toString() << '\n';
+    }
 }

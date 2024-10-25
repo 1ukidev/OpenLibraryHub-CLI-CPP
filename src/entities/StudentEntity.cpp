@@ -42,5 +42,5 @@ std::string StudentEntity::toString() const
 {
     return "Id: " + std::to_string(id.value()) + '\n' +
            "Nome: " + name + '\n' +
-           "Turma: " + classEntity.getName() + '\n';
+           "Turma: " + std::to_string(classEntity.getId().value()) + '\n';
 }

@@ -1,6 +1,7 @@
 #include "screens/Loans.hpp"
 #include "Util.hpp"
 
+#include <chrono>
 #include <iostream>
 
 void Loans::display()
@@ -57,9 +58,22 @@ bool Loans::handleOption()
     return true;
 }
 
+// TODO
 void Loans::save()
 {
-    // TODO
+    std::cout << "Digite o id do livro: ";
+    unsigned long bookId = Util::ulscan();
+
+    std::cout << "Digite o id do aluno: ";
+    unsigned long studentId = Util::ulscan();
+
+    std::cout << "Digite a data de empréstimo [dd/mm/yyyy]: ";
+    std::chrono::system_clock::time_point loanDate = Util::tpscan();
+
+    std::cout << "Digite a data de devolução [dd/mm/yyyy]: ";
+    std::chrono::system_clock::time_point returnDate = Util::tpscan();
+
+    Util::clean();
     return;
 }
 

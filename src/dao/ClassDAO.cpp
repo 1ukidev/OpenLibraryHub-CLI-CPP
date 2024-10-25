@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-bool ClassDAO::save(ClassEntity& entity)
+bool ClassDAO::save(const ClassEntity& entity)
 {
     Database db;
     DbConfig dbc;
@@ -38,7 +38,7 @@ bool ClassDAO::save(ClassEntity& entity)
     return true;
 }
 
-bool ClassDAO::update(ClassEntity& entity)
+bool ClassDAO::update(const ClassEntity& entity)
 {
     Database db;
     DbConfig dbc;
@@ -96,14 +96,14 @@ bool ClassDAO::_delete(const std::string& where)
 
 std::vector<ClassEntity> ClassDAO::search(const std::string& where)
 {
+    std::vector<ClassEntity> classes;
+
     Database db;
     DbConfig dbc;
 
     if (!DatabaseManager::initDatabase(db, dbc)) {
-        return {};
+        return classes;
     }
-
-    std::vector<ClassEntity> entities;
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -119,12 +119,12 @@ std::vector<ClassEntity> ClassDAO::search(const std::string& where)
             _class.setId(row[0].as_uint64());
             _class.setName(row[1].as_string());
 
-            entities.push_back(_class);
+            classes.push_back(_class);
         }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
-        return {};
+        return classes;
     }
 
-    return entities;
+    return classes;
 }

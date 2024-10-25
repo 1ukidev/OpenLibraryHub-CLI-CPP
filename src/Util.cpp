@@ -34,13 +34,15 @@ std::string Util::scan()
     while (true) {
         if (!std::getline(std::cin, input)) {
             std::cerr << "Erro ao ler a entrada.\n";
+            continue;
         }
 
         if (input.empty()) {
             std::cerr << "Tente novamente: ";
-        } else {
-            return input;
+            continue;
         }
+
+        return input;
     }
 }
 
@@ -54,11 +56,68 @@ unsigned int Util::uiscan()
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cerr << "Entrada inválida. Tente novamente: ";
-        } else if (input < 0) {
-            std::cerr << "O número não pode ser negativo. Tente novamente: ";
-        } else {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            return static_cast<unsigned int>(input);
+            continue;
         }
+
+        if (input < 0) {
+            std::cerr << "O número não pode ser negativo. Tente novamente: ";
+            continue;
+        }
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return static_cast<unsigned int>(input);
+    }
+}
+
+unsigned long Util::ulscan()
+{
+    long input;
+    while (true) {
+        std::cin >> input;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Entrada inválida. Tente novamente: ";
+            continue;
+        }
+
+        if (input < 0) {
+            std::cerr << "O número não pode ser negativo. Tente novamente: ";
+            continue;
+        }
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return static_cast<unsigned long>(input);
+    }
+}
+
+std::chrono::system_clock::time_point Util::tpscan()
+{
+    std::string input;
+    while (true) {
+        if (!std::getline(std::cin, input)) {
+            std::cerr << "Erro ao ler a entrada.\n";
+            continue;
+        }
+
+        if (input.empty()) {
+            std::cerr << "Tente novamente: ";
+            continue;
+        }
+
+        std::tm tm = {};
+        if (strptime(input.c_str(), "%d/%m/%Y", &tm) == nullptr) {
+            std::cerr << "Data inválida. Tente novamente: ";
+            continue;
+        }
+
+        std::time_t t = std::mktime(&tm);
+        if (t == -1) {
+            std::cerr << "Data inválida. Tente novamente: ";
+            continue;
+        }
+
+        return std::chrono::system_clock::from_time_t(t);
     }
 }

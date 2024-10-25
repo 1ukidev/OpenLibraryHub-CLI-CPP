@@ -12,8 +12,8 @@ public:
     StudentDAO() = default;
     ~StudentDAO() = default;
 
-    bool save(StudentEntity& entity) override;
-    bool update(StudentEntity& entity) override;
+    bool save(const StudentEntity& entity) override;
+    bool update(const StudentEntity& entity) override;
     bool _delete(const std::string& where) override;
     std::vector<StudentEntity> search(const std::string& where) override;
 };

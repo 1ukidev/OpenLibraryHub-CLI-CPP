@@ -18,7 +18,7 @@ void Home::display()
         std::cout << "1 - Livros\n";
         std::cout << "2 - Turmas\n";
         std::cout << "3 - Alunos\n";
-        std::cout << "4 - Empréstimo\n";
+        std::cout << "4 - Empréstimos\n";
         std::cout << "5 - Outros\n";
         std::cout << "6 - Sair\n";
         std::cout << "--> ";

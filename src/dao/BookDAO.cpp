@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-bool BookDAO::save(BookEntity& entity)
+bool BookDAO::save(const BookEntity& entity)
 {
     Database db;
     DbConfig dbc;
@@ -40,7 +40,7 @@ bool BookDAO::save(BookEntity& entity)
     return true;
 }
 
-bool BookDAO::update(BookEntity& entity)
+bool BookDAO::update(const BookEntity& entity)
 {
     Database db;
     DbConfig dbc;
@@ -99,14 +99,14 @@ bool BookDAO::_delete(const std::string& where)
 
 std::vector<BookEntity> BookDAO::search(const std::string& where)
 {
+    std::vector<BookEntity> books;
+
     Database db;
     DbConfig dbc;
 
     if (!DatabaseManager::initDatabase(db, dbc)) {
-        return {};
+        return books;
     }
-
-    std::vector<BookEntity> books;
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -131,7 +131,7 @@ std::vector<BookEntity> BookDAO::search(const std::string& where)
         }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
-        return {};
+        return books;
     }
 
     return books;
