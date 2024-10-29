@@ -1,14 +1,14 @@
 #include "entities/StudentEntity.hpp"
 #include "entities/ClassEntity.hpp"
 
-#include <optional>
 #include <string>
 #include <string_view>
 
 StudentEntity::StudentEntity(std::string_view name, const ClassEntity& classEntity)
     : name(name), classEntity(classEntity) {}
+StudentEntity::StudentEntity(unsigned long id) : id(id) {}
 
-std::optional<unsigned long> StudentEntity::getId() const
+unsigned long StudentEntity::getId() const
 {
     return id;
 }
@@ -40,7 +40,7 @@ void StudentEntity::setClassEntity(const ClassEntity& classEntity)
 
 std::string StudentEntity::toString() const
 {
-    return "Id: " + std::to_string(id.value()) + '\n' +
+    return "Id: " + std::to_string(id) + '\n' +
            "Nome: " + name + '\n' +
-           "Turma: " + std::to_string(classEntity.getId().value()) + '\n';
+           "Turma: " + std::to_string(classEntity.getId()) + '\n';
 }

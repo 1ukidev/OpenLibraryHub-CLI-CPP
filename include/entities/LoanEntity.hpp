@@ -5,17 +5,9 @@
 #include "entities/StudentEntity.hpp"
 
 #include <chrono>
-#include <optional>
 
 class LoanEntity : public Entity
 {
-private:
-    std::optional<unsigned long> id;
-    BookEntity bookEntity;
-    StudentEntity studentEntity;
-    std::chrono::system_clock::time_point loanDate;
-    std::chrono::system_clock::time_point returnDate;
-
 public:
     LoanEntity(const BookEntity& bookEntity, const StudentEntity& studentEntity,
                const std::chrono::system_clock::time_point& loanDate,
@@ -24,7 +16,7 @@ public:
     LoanEntity() = default;
     ~LoanEntity() = default;
 
-    std::optional<unsigned long> getId() const override;
+    unsigned long getId() const override;
     void setId(unsigned long id) override;
 
     BookEntity getBookEntity() const;
@@ -40,4 +32,11 @@ public:
     void setReturnDate(const std::chrono::system_clock::time_point& returnDate);
 
     std::string toString() const override;
+
+private:
+    unsigned long id;
+    BookEntity bookEntity;
+    StudentEntity studentEntity;
+    std::chrono::system_clock::time_point loanDate;
+    std::chrono::system_clock::time_point returnDate;
 };

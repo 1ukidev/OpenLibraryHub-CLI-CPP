@@ -26,7 +26,7 @@ bool StudentDAO::save(const StudentEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getName(), entity.getClassEntity().getId().value()), results);
+        db.connection.execute(stmt.bind(entity.getName(), entity.getClassEntity().getId()), results);
 
         if (results.affected_rows() == 0) {
             return false;
@@ -54,8 +54,8 @@ bool StudentDAO::update(const StudentEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getName(), entity.getClassEntity().getId().value(),
-                              entity.getId().value()), results);
+        db.connection.execute(stmt.bind(entity.getName(), entity.getClassEntity().getId(),
+                              entity.getId()), results);
 
         if (results.affected_rows() == 0) {
             return false;

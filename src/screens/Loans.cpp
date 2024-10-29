@@ -1,7 +1,10 @@
 #include "screens/Loans.hpp"
 #include "Util.hpp"
+#include "dao/LoanDAO.hpp"
+#include "entities/BookEntity.hpp"
+#include "entities/LoanEntity.hpp"
+#include "entities/StudentEntity.hpp"
 
-#include <chrono>
 #include <iostream>
 
 void Loans::display()
@@ -58,7 +61,6 @@ bool Loans::handleOption()
     return true;
 }
 
-// TODO
 void Loans::save()
 {
     std::cout << "Digite o id do livro: ";
@@ -68,13 +70,21 @@ void Loans::save()
     unsigned long studentId = Util::ulscan();
 
     std::cout << "Digite a data de empréstimo [dd/mm/yyyy]: ";
-    std::chrono::system_clock::time_point loanDate = Util::tpscan();
+    auto loanDate = Util::tpscan();
 
     std::cout << "Digite a data de devolução [dd/mm/yyyy]: ";
-    std::chrono::system_clock::time_point returnDate = Util::tpscan();
+    auto returnDate = Util::tpscan();
 
-    Util::clean();
-    return;
+    LoanEntity loan(BookEntity(bookId), StudentEntity(studentId), loanDate, returnDate);
+
+    LoanDAO dao;
+    
+    if (!dao.save(loan)) {
+        std::cerr << "Erro ao salvar empréstimo...\n\n";
+    } else {
+        Util::clean();
+        std::cout << "Empréstimo salvo com sucesso!\n\n";
+    }
 }
 
 void Loans::update()

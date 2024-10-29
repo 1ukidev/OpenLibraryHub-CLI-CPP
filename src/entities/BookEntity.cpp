@@ -1,6 +1,5 @@
 #include "entities/BookEntity.hpp"
 
-#include <optional>
 #include <string>
 #include <string_view>
 
@@ -9,8 +8,9 @@ BookEntity::BookEntity(std::string_view title, std::string_view author,
                        unsigned int year, unsigned int stock)
     : title(title), author(author), section(section),
       pages(pages), year(year), stock(stock) {}
+BookEntity::BookEntity(unsigned long id) : id(id) {}
 
-std::optional<unsigned long> BookEntity::getId() const
+unsigned long BookEntity::getId() const
 {
     return id;
 }
@@ -82,7 +82,7 @@ void BookEntity::setStock(unsigned int stock)
 
 std::string BookEntity::toString() const
 {
-    return "Id: " + std::to_string(id.value()) + '\n' +
+    return "Id: " + std::to_string(id) + '\n' +
            "Título: " + title + '\n' +
            "Autor: " + author + '\n' +
            "Seção: " + section + '\n' +

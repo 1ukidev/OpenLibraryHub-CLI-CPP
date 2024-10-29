@@ -27,7 +27,8 @@ bool LoanDAO::save(const LoanEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(), results);
+        db.connection.execute(stmt.bind(entity.getStudentEntity().getId(), entity.getBookEntity().getId(),
+                              nullptr, nullptr), results);
 
         if (results.affected_rows() == 0) {
             return false;

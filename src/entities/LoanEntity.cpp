@@ -3,7 +3,6 @@
 #include "entities/StudentEntity.hpp"
 
 #include <chrono>
-#include <optional>
 
 LoanEntity::LoanEntity(const BookEntity& bookEntity, const StudentEntity& studentEntity,
                        const std::chrono::system_clock::time_point& loanDate,
@@ -11,7 +10,7 @@ LoanEntity::LoanEntity(const BookEntity& bookEntity, const StudentEntity& studen
     : bookEntity(bookEntity), studentEntity(studentEntity),
       loanDate(loanDate), returnDate(returnDate) {}
 
-std::optional<unsigned long> LoanEntity::getId() const
+unsigned long LoanEntity::getId() const
 {
     return id;
 }
@@ -63,7 +62,7 @@ void LoanEntity::setReturnDate(const std::chrono::system_clock::time_point& retu
 
 std::string LoanEntity::toString() const
 {
-    return "Id: " + std::to_string(id.value()) + "\n" +
+    return "Id: " + std::to_string(id) + "\n" +
            "Livro: " + bookEntity.toString() + "\n" +
            "Estudante: " + studentEntity.toString() + "\n" +
            "Data de empréstimo: " + std::to_string(std::chrono::system_clock::to_time_t(loanDate)) + "\n" +

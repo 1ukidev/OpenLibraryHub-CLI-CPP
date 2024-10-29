@@ -2,30 +2,21 @@
 
 #include "entities/Entity.hpp"
 
-#include <optional>
 #include <string>
 #include <string_view>
 
 class BookEntity : public Entity
 {
-private:
-    std::optional<unsigned long> id;
-    std::string title;
-    std::string author;
-    std::string section;
-    unsigned int pages;
-    unsigned int year;
-    unsigned int stock;
-
 public:
     BookEntity(std::string_view title, std::string_view author,
                std::string_view section, unsigned int pages,
                unsigned int year, unsigned int stock);
+    BookEntity(unsigned long id);
 
     BookEntity() = default;
     ~BookEntity() = default;
 
-    std::optional<unsigned long> getId() const override;
+    unsigned long getId() const override;
     void setId(unsigned long id) override;
 
     std::string getTitle() const;
@@ -47,4 +38,13 @@ public:
     void setStock(unsigned int stock);
 
     std::string toString() const override;
+
+private:
+    unsigned long id;
+    std::string title;
+    std::string author;
+    std::string section;
+    unsigned int pages;
+    unsigned int year;
+    unsigned int stock;
 };

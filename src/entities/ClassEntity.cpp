@@ -1,13 +1,12 @@
 #include "entities/ClassEntity.hpp"
 
-#include <optional>
 #include <string>
 #include <string_view>
 
 ClassEntity::ClassEntity(std::string_view name) : name(name) {}
 ClassEntity::ClassEntity(unsigned long id) : id(id) {}
 
-std::optional<unsigned long> ClassEntity::getId() const
+unsigned long ClassEntity::getId() const
 {
     return id;
 }
@@ -29,6 +28,6 @@ void ClassEntity::setName(std::string_view name)
 
 std::string ClassEntity::toString() const
 {
-    return "Id: " + std::to_string(id.value()) + '\n' +
+    return "Id: " + std::to_string(id) + '\n' +
            "Nome: " + name + '\n';
 }

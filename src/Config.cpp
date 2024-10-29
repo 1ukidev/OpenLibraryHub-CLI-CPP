@@ -15,22 +15,8 @@ std::string Config::trim(const std::string& str)
 
 bool Config::load()
 {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    const std::string homePath = std::getenv("HOMEPATH");
-#else
     const std::string homePath = std::getenv("HOME");
-#endif
-
     const std::string filePath = homePath + "/olh.properties";
-
-    if (!std::filesystem::exists(filePath)) {
-        std::ofstream newFile(filePath);
-        if (!newFile) {
-            std::cerr << "Falha ao criar arquivo: " << filePath << '\n';
-            return false;
-        }
-        newFile.close();
-    }
 
     std::ifstream file(filePath);
     if (!file.is_open()) {
