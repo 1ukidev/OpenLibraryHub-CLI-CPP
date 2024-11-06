@@ -106,7 +106,7 @@ std::chrono::system_clock::time_point Util::tpscan()
             continue;
         }
 
-        std::tm tm = {};
+        std::tm tm;
         if (strptime(input.c_str(), "%d/%m/%Y", &tm) == nullptr) {
             std::cerr << "Data inválida. Tente novamente: ";
             continue;
