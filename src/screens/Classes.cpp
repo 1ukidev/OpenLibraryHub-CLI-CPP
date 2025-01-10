@@ -25,7 +25,7 @@ void Classes::display()
 
 bool Classes::handleOption()
 {
-    unsigned int option = Util::uiscan();
+    unsigned int option = Util::uscan();
     Util::clean();
 
     switch (option) {
@@ -39,7 +39,7 @@ bool Classes::handleOption()
             break;
         // 3 - Excluir turma
         case 3:
-            _delete();
+            remove();
             break;
         // 4 - Buscar turma
         case 4:
@@ -66,11 +66,11 @@ void Classes::save()
     std::cout << "Digite o nome da turma: ";
     std::string name = Util::scan();
 
-    ClassEntity _class(name);
+    ClassEntity classEntity(name);
 
     ClassDAO dao;
 
-    if (!dao.save(_class)) {
+    if (!dao.save(classEntity)) {
         std::cerr << "Erro ao cadastrar turma...\n\n";
     } else {
         Util::clean();
@@ -94,14 +94,14 @@ void Classes::update()
         return;
     }
 
-    ClassEntity _class = classes[0];
+    ClassEntity classEntity = classes[0];
 
     std::cout << "Digite o novo nome da turma: ";
     std::string name = Util::scan();
 
-    _class.setName(name);
+    classEntity.name = name;
 
-    if (!dao.update(_class)) {
+    if (!dao.update(classEntity)) {
         std::cerr << "Erro ao atualizar turma...\n\n";
     } else {
         Util::clean();
@@ -109,14 +109,14 @@ void Classes::update()
     }
 }
 
-void Classes::_delete()
+void Classes::remove()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
     ClassDAO dao;
 
-    if (!dao._delete(where)) {
+    if (!dao.remove(where)) {
         std::cerr << "Erro ao excluir turma...\n\n";
     } else {
         Util::clean();
@@ -138,9 +138,8 @@ void Classes::search()
     }
 
     Util::clean();
-    for (const auto& _class : classes) {
-        std::cout << _class.toString() << '\n';
-    }
+    for (const auto& classEntity : classes)
+        std::cout << classEntity.toString() << '\n';
 }
 
 void Classes::list()
@@ -153,7 +152,6 @@ void Classes::list()
         return;
     }
 
-    for (const auto& _class : classes) {
-        std::cout << _class.toString() << '\n';
-    }
+    for (const auto& classEntity : classes)
+        std::cout << classEntity.toString() << '\n';
 }

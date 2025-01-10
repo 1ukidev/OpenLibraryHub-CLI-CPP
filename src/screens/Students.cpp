@@ -26,7 +26,7 @@ void Students::display()
 
 bool Students::handleOption()
 {
-    unsigned int option = Util::uiscan();
+    unsigned int option = Util::uscan();
     Util::clean();
 
     switch (option) {
@@ -40,7 +40,7 @@ bool Students::handleOption()
             break;
         // 3 - Excluir aluno
         case 3:
-            _delete();
+            remove();
             break;
         // 4 - Buscar aluno
         case 4:
@@ -68,7 +68,7 @@ void Students::save()
     std::string name = Util::scan();
 
     std::cout << "Digite o id da turma: ";
-    unsigned int classId = Util::uiscan();
+    unsigned long classId = Util::uscan<unsigned long>();
 
     StudentEntity student(name, ClassEntity(classId));
 
@@ -104,10 +104,10 @@ void Students::update()
     std::string name = Util::scan();
 
     std::cout << "Digite o novo id da turma: ";
-    unsigned int classId = Util::uiscan();
+    unsigned long classId = Util::uscan<unsigned long>();
 
-    student.setName(name);
-    student.setClassEntity(ClassEntity(classId));
+    student.name = name;
+    student.classEntity = ClassEntity(classId);
 
     if (!dao.update(student)) {
         std::cerr << "Erro ao atualizar aluno...\n\n";
@@ -117,14 +117,14 @@ void Students::update()
     }
 }
 
-void Students::_delete()
+void Students::remove()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
     StudentDAO dao;
 
-    if (!dao._delete(where)) {
+    if (!dao.remove(where)) {
         std::cerr << "Erro ao excluir aluno...\n\n";
     } else {
         Util::clean();
@@ -161,7 +161,6 @@ void Students::list()
         return;
     }
 
-    for (const auto& student : students) {
+    for (const auto& student : students)
         std::cout << student.toString() << '\n';
-    }
 }

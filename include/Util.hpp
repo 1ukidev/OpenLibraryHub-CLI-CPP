@@ -3,12 +3,17 @@
 #include <chrono>
 #include <string>
 
-namespace Util
+class Util
 {
-    std::string greet();
-    void clean();
-    std::string scan();
-    unsigned int uiscan();
-    unsigned long ulscan();
-    std::chrono::system_clock::time_point tpscan();
-}
+public:
+    Util() = delete;
+    static std::string greet();
+    static void clean();
+
+    static std::string scan();
+    template <typename T = unsigned int> static T uscan();
+
+    static std::chrono::system_clock::time_point tpscan();
+    static std::string timePointToString(const std::chrono::system_clock::time_point& tp,
+                                         const std::string& format = "{:%d/%m/%Y}");
+};

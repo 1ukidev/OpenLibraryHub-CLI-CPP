@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(openlibraryhub
+project(
+    openlibraryhub
     LANGUAGES CXX
 )
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(openlibraryhub
+add_executable(
+    openlibraryhub
     "src/main.cpp"
     "src/Util.cpp"
     "src/Database.cpp"
@@ -36,6 +38,8 @@ add_executable(openlibraryhub
     "include/entities/ClassEntity.hpp"
     "include/entities/StudentEntity.hpp"
     "include/entities/LoanEntity.hpp"
+    "include/screens/Screen.hpp"
+    "include/screens/CRUDScreen.hpp"
     "include/screens/Home.hpp"
     "include/screens/Others.hpp"
     "include/screens/Books.hpp"
@@ -59,7 +63,8 @@ find_package(Boost CONFIG REQUIRED COMPONENTS charconv)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 
-target_link_libraries(openlibraryhub PRIVATE
+target_link_libraries(
+    openlibraryhub PRIVATE
     Boost::charconv
     Threads::Threads
     OpenSSL::SSL

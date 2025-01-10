@@ -2,7 +2,10 @@
 #include "Database.hpp"
 #include "DatabaseManager.hpp"
 #include "DbConfig.hpp"
+#include "Util.hpp"
+#include "entities/BookEntity.hpp"
 #include "entities/LoanEntity.hpp"
+#include "entities/StudentEntity.hpp"
 
 #include <boost/mysql/statement.hpp>
 #include <boost/mysql/results.hpp>
@@ -11,15 +14,13 @@
 #include <string>
 #include <vector>
 
-// TODO
 bool LoanDAO::save(const LoanEntity& entity)
 {
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -27,12 +28,15 @@ bool LoanDAO::save(const LoanEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getStudentEntity().getId(), entity.getBookEntity().getId(),
-                              nullptr, nullptr), results);
+        db.connection.execute(stmt.bind(
+            entity.studentEntity.id,
+            entity.bookEntity.id,
+            Util::timePointToString(entity.loanDate, "{:%Y-%m-%d}"),
+            Util::timePointToString(entity.returnDate, "{:%Y-%m-%d}")
+        ), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -41,15 +45,13 @@ bool LoanDAO::save(const LoanEntity& entity)
     return true;
 }
 
-// TODO
 bool LoanDAO::update(const LoanEntity& entity)
 {
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -57,11 +59,16 @@ bool LoanDAO::update(const LoanEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(), results);
+        db.connection.execute(stmt.bind(
+            entity.studentEntity.id,
+            entity.bookEntity.id,
+            Util::timePointToString(entity.loanDate, "{:%Y-%m-%d}"),
+            Util::timePointToString(entity.returnDate, "{:%Y-%m-%d}"),
+            entity.id
+        ), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -70,14 +77,13 @@ bool LoanDAO::update(const LoanEntity& entity)
     return true;
 }
 
-bool LoanDAO::_delete(const std::string& where)
+bool LoanDAO::remove(const std::string& where)
 {
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -87,9 +93,8 @@ bool LoanDAO::_delete(const std::string& where)
         boost::mysql::results results;
         db.connection.execute(stmt.bind(), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         return false;
     }
@@ -97,7 +102,6 @@ bool LoanDAO::_delete(const std::string& where)
     return true;
 }
 
-// TODO
 std::vector<LoanEntity> LoanDAO::search(const std::string& where)
 {
     std::vector<LoanEntity> loans;
@@ -105,9 +109,8 @@ std::vector<LoanEntity> LoanDAO::search(const std::string& where)
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return loans;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -120,7 +123,11 @@ std::vector<LoanEntity> LoanDAO::search(const std::string& where)
         for (const auto& row : results.rows()) {
             LoanEntity loan;
 
-            loan.setId(row[0].get_uint64());
+            loan.id = row[0].get_uint64();
+            loan.bookEntity = BookEntity(row[1].get_uint64());
+            loan.studentEntity = StudentEntity(row[2].get_uint64());
+            loan.loanDate = row[3].get_date().as_time_point();
+            loan.returnDate = row[4].get_date().as_time_point();
 
             loans.push_back(loan);
         }

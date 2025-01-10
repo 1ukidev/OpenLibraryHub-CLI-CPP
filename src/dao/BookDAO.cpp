@@ -16,9 +16,8 @@ bool BookDAO::save(const BookEntity& entity)
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -26,12 +25,11 @@ bool BookDAO::save(const BookEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getTitle(), entity.getAuthor(), entity.getSection(),
-                              entity.getPages(), entity.getYear(), entity.getStock()), results);
+        db.connection.execute(stmt.bind(entity.title, entity.author, entity.section,
+                              entity.pages, entity.year, entity.stock), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -45,9 +43,8 @@ bool BookDAO::update(const BookEntity& entity)
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -55,12 +52,11 @@ bool BookDAO::update(const BookEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getTitle(), entity.getAuthor(), entity.getSection(),
-                              entity.getPages(), entity.getYear(), entity.getStock(), entity.getId()), results);
+        db.connection.execute(stmt.bind(entity.title, entity.author, entity.section,
+                              entity.pages, entity.year, entity.stock, entity.id), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -69,14 +65,13 @@ bool BookDAO::update(const BookEntity& entity)
     return true;
 }
 
-bool BookDAO::_delete(const std::string& where)
+bool BookDAO::remove(const std::string& where)
 {
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -86,9 +81,8 @@ bool BookDAO::_delete(const std::string& where)
         boost::mysql::results results;
         db.connection.execute(stmt.bind(), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -104,9 +98,8 @@ std::vector<BookEntity> BookDAO::search(const std::string& where)
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return books;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -119,13 +112,13 @@ std::vector<BookEntity> BookDAO::search(const std::string& where)
         for (const auto& row : results.rows()) {
             BookEntity book;
 
-            book.setId(row[0].as_uint64());
-            book.setTitle(row[1].as_string());
-            book.setAuthor(row[2].as_string());
-            book.setSection(row[3].as_string());
-            book.setPages(row[4].as_uint64());
-            book.setYear(row[5].as_uint64());
-            book.setStock(row[6].as_uint64());
+            book.id = row[0].as_uint64();
+            book.title = row[1].as_string();
+            book.author = row[2].as_string();
+            book.section = row[3].as_string();
+            book.pages = row[4].as_uint64();
+            book.year = row[5].as_uint64();
+            book.stock = row[6].as_uint64();
 
             books.push_back(book);
         }

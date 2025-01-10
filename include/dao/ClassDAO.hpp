@@ -14,6 +14,6 @@ public:
 
     bool save(const ClassEntity& entity) override;
     bool update(const ClassEntity& entity) override;
-    bool _delete(const std::string& where) override;
+    bool remove(const std::string& where) override;
     std::vector<ClassEntity> search(const std::string& where) override;
 };

@@ -29,30 +29,40 @@ void Home::display()
 
 bool Home::handleOption()
 {
-    unsigned int option = Util::uiscan();
+    unsigned int option = Util::uscan();
     Util::clean();
 
     switch (option) {
         // 1 - Livros
-        case 1:
-            Books::display();
+        case 1: {
+            Books books;
+            books.display();
             break;
+        }
         // 2 - Turmas
-        case 2:
-            Classes::display();
+        case 2: {
+            Classes classes;
+            classes.display();
             break;
+        }
         // 3 - Alunos
-        case 3:
-            Students::display();
+        case 3: {
+            Students students;
+            students.display();
             break;
+        }
         // 4- Empréstimos
-        case 4:
-            Loans::display();
+        case 4: {
+            Loans loans;
+            loans.display();
             break;
+        }
         // 5 - Outros
-        case 5:
-            Others::display();
+        case 5: {
+            Others others;
+            others.display();
             break;
+        }
         // 6 - Sair
         case 6:
             std::cout << "Até mais!\n";

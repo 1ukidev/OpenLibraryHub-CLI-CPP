@@ -25,7 +25,7 @@ void Books::display()
 
 bool Books::handleOption()
 {
-    unsigned int option = Util::uiscan();
+    unsigned int option = Util::uscan();
     Util::clean();
 
     switch (option) {
@@ -39,7 +39,7 @@ bool Books::handleOption()
             break;
         // 3 - Excluir livro
         case 3:
-            _delete();
+            remove();
             break;
         // 4 - Buscar livro
         case 4:
@@ -73,13 +73,13 @@ void Books::save()
     std::string section = Util::scan();
 
     std::cout << "Digite o número de páginas: ";
-    unsigned int pages = Util::uiscan();
+    unsigned int pages = Util::uscan();
 
     std::cout << "Digite o ano de publicação: ";
-    unsigned int year = Util::uiscan();
+    unsigned int year = Util::uscan();
 
     std::cout << "Digite a quantidade em estoque: ";
-    unsigned int stock = Util::uiscan();
+    unsigned int stock = Util::uscan();
 
     BookEntity book(title, author, section, pages, year, stock);
 
@@ -121,20 +121,20 @@ void Books::update()
     std::string section = Util::scan();
 
     std::cout << "Digite o novo número de páginas: ";
-    unsigned int pages = Util::uiscan();
+    unsigned int pages = Util::uscan();
 
     std::cout << "Digite o novo ano de publicação: ";
-    unsigned int year = Util::uiscan();
+    unsigned int year = Util::uscan();
 
     std::cout << "Digite a nova quantidade em estoque: ";
-    unsigned int stock = Util::uiscan();
+    unsigned int stock = Util::uscan();
 
-    book.setTitle(title);
-    book.setAuthor(author);
-    book.setSection(section);
-    book.setPages(pages);
-    book.setYear(year);
-    book.setStock(stock);
+    book.title = title;
+    book.author = author;
+    book.section = section;
+    book.pages = pages;
+    book.year = year;
+    book.stock = stock;
 
     if (!dao.update(book)) {
         std::cerr << "Erro ao atualizar livro...\n\n";
@@ -144,14 +144,14 @@ void Books::update()
     }
 }
 
-void Books::_delete()
+void Books::remove()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
     BookDAO dao;
 
-    if (!dao._delete(where)) {
+    if (!dao.remove(where)) {
         std::cerr << "Erro ao excluir livro...\n\n";
     } else {
         Util::clean();
@@ -173,9 +173,8 @@ void Books::search()
     }
 
     Util::clean();
-    for (const auto& book : books) {
+    for (const auto& book : books)
         std::cout << book.toString() << '\n';
-    }
 }
 
 void Books::list()
@@ -188,7 +187,6 @@ void Books::list()
         return;
     }
 
-    for (const auto& book : books) {
+    for (const auto& book : books)
         std::cout << book.toString() << '\n';
-    }
 }

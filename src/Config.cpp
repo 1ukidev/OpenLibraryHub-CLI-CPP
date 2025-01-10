@@ -19,9 +19,8 @@ bool Config::load()
     const std::string filePath = homePath + "/olh.properties";
 
     std::ifstream file(filePath);
-    if (!file.is_open()) {
+    if (!file.is_open())
         return false;
-    }
 
     std::string line;
     while (std::getline(file, line)) {

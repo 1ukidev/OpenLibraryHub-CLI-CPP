@@ -1,12 +1,18 @@
 #pragma once
 
-namespace Classes
+#include "screens/CRUDScreen.hpp"
+
+class Classes : public CRUDScreen
 {
-    void display();
-    bool handleOption();
-    void save();
-    void update();
-    void _delete();
-    void search();
-    void list();
-}
+public:
+    Classes() = default;
+    ~Classes() = default;
+
+    void display() override;
+    bool handleOption() override;
+    void save() override;
+    void update() override;
+    void remove() override;
+    void search() override;
+    void list() override;
+};

@@ -9,6 +9,9 @@
 int main()
 {
     Util::clean();
-    Home::display();
+
+    Home home;
+    home.display();
+
     return EXIT_SUCCESS;
 }

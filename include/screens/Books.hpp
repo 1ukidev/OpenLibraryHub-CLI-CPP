@@ -1,12 +1,18 @@
 #pragma once
 
-namespace Books
+#include "screens/CRUDScreen.hpp"
+
+class Books : public CRUDScreen
 {
-    void display();
-    bool handleOption();
-    void save();
-    void update();
-    void _delete();
-    void search();
-    void list();
-}
+public:
+    Books() = default;
+    ~Books() = default;
+
+    void display() override;
+    bool handleOption() override;
+    void save() override;
+    void update() override;
+    void remove() override;
+    void search() override;
+    void list() override;
+};

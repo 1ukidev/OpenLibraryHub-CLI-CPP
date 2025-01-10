@@ -1,7 +1,13 @@
 #pragma once
 
-namespace Home
+#include "screens/Screen.hpp"
+
+class Home : public Screen
 {
-    void display();
-    bool handleOption();
-}
+public:
+    Home() = default;
+    ~Home() = default;
+
+    void display() override;
+    bool handleOption() override;
+};

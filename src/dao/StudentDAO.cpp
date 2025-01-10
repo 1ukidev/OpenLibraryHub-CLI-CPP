@@ -16,9 +16,8 @@ bool StudentDAO::save(const StudentEntity& entity)
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -26,11 +25,10 @@ bool StudentDAO::save(const StudentEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getName(), entity.getClassEntity().getId()), results);
+        db.connection.execute(stmt.bind(entity.name, entity.classEntity.id), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -44,9 +42,8 @@ bool StudentDAO::update(const StudentEntity& entity)
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -54,12 +51,10 @@ bool StudentDAO::update(const StudentEntity& entity)
         );
 
         boost::mysql::results results;
-        db.connection.execute(stmt.bind(entity.getName(), entity.getClassEntity().getId(),
-                              entity.getId()), results);
+        db.connection.execute(stmt.bind(entity.name, entity.classEntity.id, entity.id), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -68,14 +63,13 @@ bool StudentDAO::update(const StudentEntity& entity)
     return true;
 }
 
-bool StudentDAO::_delete(const std::string& where)
+bool StudentDAO::remove(const std::string& where)
 {
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return false;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -85,9 +79,8 @@ bool StudentDAO::_delete(const std::string& where)
         boost::mysql::results results;
         db.connection.execute(stmt.bind(), results);
 
-        if (results.affected_rows() == 0) {
+        if (results.affected_rows() == 0)
             return false;
-        }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return false;
@@ -103,9 +96,8 @@ std::vector<StudentEntity> StudentDAO::search(const std::string& where)
     Database db;
     DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc)) {
+    if (!DatabaseManager::initDatabase(db, dbc))
         return students;
-    }
 
     try {
         boost::mysql::statement stmt = db.connection.prepare_statement(
@@ -118,9 +110,9 @@ std::vector<StudentEntity> StudentDAO::search(const std::string& where)
         for (const auto& row : results.rows()) {
             StudentEntity student;
             
-            student.setId(row[0].as_uint64());
-            student.setName(row[1].as_string());
-            student.setClassEntity(ClassEntity(row[2].as_uint64()));
+            student.id = row[0].as_uint64();
+            student.name = row[1].as_string();
+            student.classEntity = ClassEntity(row[2].as_uint64());
 
             students.push_back(student);
         }

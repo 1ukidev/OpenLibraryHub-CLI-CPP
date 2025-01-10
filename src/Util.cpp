@@ -2,7 +2,10 @@
 
 #include <chrono>
 #include <ctime>
+#include <format>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <limits>
 
@@ -46,9 +49,12 @@ std::string Util::scan()
     }
 }
 
-unsigned int Util::uiscan()
+template <typename T>
+T Util::uscan()
 {
-    int input;
+    static_assert(std::is_unsigned<T>::value, "O tipo deve ser um número unsigned.");
+
+    unsigned long long input;
     while (true) {
         std::cin >> input;
 
@@ -59,38 +65,18 @@ unsigned int Util::uiscan()
             continue;
         }
 
-        if (input < 0) {
-            std::cerr << "O número não pode ser negativo. Tente novamente: ";
+        if (input < 0 || input > std::numeric_limits<T>::max()) {
+            std::cerr << "O número deve estar entre 0 e " << std::numeric_limits<T>::max() << ". Tente novamente: ";
             continue;
         }
 
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return static_cast<unsigned int>(input);
+        return static_cast<T>(input);
     }
 }
 
-unsigned long Util::ulscan()
-{
-    long input;
-    while (true) {
-        std::cin >> input;
-
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cerr << "Entrada inválida. Tente novamente: ";
-            continue;
-        }
-
-        if (input < 0) {
-            std::cerr << "O número não pode ser negativo. Tente novamente: ";
-            continue;
-        }
-
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return static_cast<unsigned long>(input);
-    }
-}
+template unsigned int Util::uscan();
+template unsigned long Util::uscan<unsigned long>();
 
 std::chrono::system_clock::time_point Util::tpscan()
 {
@@ -106,18 +92,33 @@ std::chrono::system_clock::time_point Util::tpscan()
             continue;
         }
 
-        std::tm tm;
-        if (strptime(input.c_str(), "%d/%m/%Y", &tm) == nullptr) {
-            std::cerr << "Data inválida. Tente novamente: ";
+        std::tm tm{};
+        std::istringstream ss(input);
+        ss >> std::get_time(&tm, "%d/%m/%Y");
+        if (ss.fail() || ss.str().empty()) {
+            std::cerr << "Data inválida. Certifique-se de usar o formato DD/MM/YYYY.\nTente novamente: ";
             continue;
         }
 
         std::time_t t = std::mktime(&tm);
         if (t == -1) {
-            std::cerr << "Data inválida. Tente novamente: ";
+            std::cerr << "Erro ao converter data. Tente novamente: ";
             continue;
         }
 
         return std::chrono::system_clock::from_time_t(t);
     }
+}
+
+std::string Util::timePointToString(const std::chrono::system_clock::time_point& tp, const std::string& format)
+{
+    std::string s;
+
+    if (format == "{:%d/%m/%Y}") {
+        s = std::format("{:%d/%m/%Y}", tp);
+    } else if (format == "{:%Y-%m-%d}") {
+        s = std::format("{:%Y-%m-%d}", tp);
+    }
+
+    return s;
 }

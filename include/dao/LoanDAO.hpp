@@ -14,6 +14,6 @@ public:
 
     bool save(const LoanEntity& entity) override;
     bool update(const LoanEntity& entity) override;
-    bool _delete(const std::string& where) override;
+    bool remove(const std::string& where) override;
     std::vector<LoanEntity> search(const std::string& where) override;
 };

@@ -1,8 +1,14 @@
 #pragma once
 
-namespace Others
+#include "screens/Screen.hpp"
+
+class Others : public Screen
 {
-    void display();
-    bool handleOption();
+public:
+    Others() = default;
+    ~Others() = default;
+
+    void display() override;
+    bool handleOption() override;
     void about();
-}
+};

@@ -17,7 +17,7 @@ void Others::display()
 
 bool Others::handleOption()
 {
-    unsigned int option = Util::uiscan();
+    unsigned int option = Util::uscan();
     Util::clean();
 
     switch (option) {
