@@ -6,7 +6,7 @@ class Books : public CRUDScreen
 {
 public:
     Books() = default;
-    ~Books() = default;
+    ~Books() override = default;
 
     void display() override;
     bool handleOption() override;

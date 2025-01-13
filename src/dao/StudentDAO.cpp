@@ -2,6 +2,7 @@
 #include "Database.hpp"
 #include "DatabaseManager.hpp"
 #include "DbConfig.hpp"
+#include "entities/ClassEntity.hpp"
 #include "entities/StudentEntity.hpp"
 
 #include <boost/mysql/statement.hpp>

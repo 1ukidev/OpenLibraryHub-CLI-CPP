@@ -6,7 +6,7 @@ class Loans : public CRUDScreen
 {
 public:
     Loans() = default;
-    ~Loans() = default;
+    ~Loans() override = default;
 
     void display() override;
     bool handleOption() override;

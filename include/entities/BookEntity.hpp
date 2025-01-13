@@ -14,7 +14,7 @@ public:
     BookEntity(unsigned long id);
 
     BookEntity() = default;
-    ~BookEntity() = default;
+    ~BookEntity() override = default;
 
     std::string toString() const override;
 

@@ -10,7 +10,7 @@ class ClassDAO : public DAO<ClassEntity>
 {
 public:
     ClassDAO() = default;
-    ~ClassDAO() = default;
+    ~ClassDAO() override = default;
 
     bool save(const ClassEntity& entity) override;
     bool update(const ClassEntity& entity) override;

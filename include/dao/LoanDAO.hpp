@@ -10,7 +10,7 @@ class LoanDAO : public DAO<LoanEntity>
 {
 public:
     LoanDAO() = default;
-    ~LoanDAO() = default;
+    ~LoanDAO() override = default;
 
     bool save(const LoanEntity& entity) override;
     bool update(const LoanEntity& entity) override;

@@ -13,7 +13,7 @@ public:
     StudentEntity(unsigned long id);
 
     StudentEntity() = default;
-    ~StudentEntity() = default;
+    ~StudentEntity() override = default;
 
     std::string toString() const override;
 

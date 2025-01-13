@@ -14,7 +14,7 @@ public:
                const std::chrono::system_clock::time_point& returnDate);
 
     LoanEntity() = default;
-    ~LoanEntity() = default;
+    ~LoanEntity() override = default;
 
     std::string toString() const override;
 

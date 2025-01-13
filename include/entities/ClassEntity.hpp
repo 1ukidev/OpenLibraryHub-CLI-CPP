@@ -12,7 +12,7 @@ public:
     ClassEntity(unsigned long id);
 
     ClassEntity() = default;
-    ~ClassEntity() = default;
+    ~ClassEntity() override = default;
 
     std::string toString() const override;
 

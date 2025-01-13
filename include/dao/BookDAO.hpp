@@ -10,7 +10,7 @@ class BookDAO : public DAO<BookEntity>
 {
 public:
     BookDAO() = default;
-    ~BookDAO() = default;
+    ~BookDAO() override = default;
 
     bool save(const BookEntity& entity) override;
     bool update(const BookEntity& entity) override;

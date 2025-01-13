@@ -6,7 +6,7 @@ class Students : public CRUDScreen
 {
 public:
     Students() = default;
-    ~Students() = default;
+    ~Students() override = default;
 
     void display() override;
     bool handleOption() override;
