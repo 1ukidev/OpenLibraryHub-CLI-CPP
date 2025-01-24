@@ -65,7 +65,7 @@ T Util::uscan()
             continue;
         }
 
-        if (input < 0 || input > std::numeric_limits<T>::max()) {
+        if (input > std::numeric_limits<T>::max()) {
             std::cerr << "O número deve estar entre 0 e " << std::numeric_limits<T>::max() << ". Tente novamente: ";
             continue;
         }

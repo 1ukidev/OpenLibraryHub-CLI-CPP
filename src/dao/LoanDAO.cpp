@@ -1,7 +1,6 @@
 #include "dao/LoanDAO.hpp"
 #include "Database.hpp"
 #include "DatabaseManager.hpp"
-#include "DbConfig.hpp"
 #include "Util.hpp"
 #include "entities/BookEntity.hpp"
 #include "entities/LoanEntity.hpp"
@@ -17,9 +16,7 @@
 bool LoanDAO::save(const LoanEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -48,9 +45,7 @@ bool LoanDAO::save(const LoanEntity& entity)
 bool LoanDAO::update(const LoanEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -80,9 +75,7 @@ bool LoanDAO::update(const LoanEntity& entity)
 bool LoanDAO::remove(const std::string& where)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -107,9 +100,7 @@ std::vector<LoanEntity> LoanDAO::search(const std::string& where)
     std::vector<LoanEntity> loans;
 
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return loans;
 
     try {

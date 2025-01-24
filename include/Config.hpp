@@ -14,5 +14,5 @@ private:
 public:
     bool load();
     std::string get(const std::string& key, const std::string& defaultValue = "") const;
-    void putDatabase(DbConfig& dbc);
+    bool putDatabase(DbConfig& dbc);
 };

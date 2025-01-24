@@ -7,5 +7,5 @@ class DatabaseManager
 {
 public:
     DatabaseManager() = delete;
-    static bool initDatabase(Database& db, DbConfig& dbc);
+    static bool initDatabase(Database& db);
 };

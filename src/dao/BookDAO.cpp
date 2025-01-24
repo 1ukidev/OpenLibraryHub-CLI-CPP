@@ -1,7 +1,6 @@
 #include "dao/BookDAO.hpp"
 #include "Database.hpp"
 #include "DatabaseManager.hpp"
-#include "DbConfig.hpp"
 #include "entities/BookEntity.hpp"
 
 #include <boost/mysql/statement.hpp>
@@ -14,9 +13,7 @@
 bool BookDAO::save(const BookEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -41,9 +38,7 @@ bool BookDAO::save(const BookEntity& entity)
 bool BookDAO::update(const BookEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -68,9 +63,8 @@ bool BookDAO::update(const BookEntity& entity)
 bool BookDAO::remove(const std::string& where)
 {
     Database db;
-    DbConfig dbc;
 
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -96,9 +90,7 @@ std::vector<BookEntity> BookDAO::search(const std::string& where)
     std::vector<BookEntity> books;
 
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return books;
 
     try {

@@ -47,7 +47,7 @@ std::string Config::get(const std::string& key, const std::string& defaultValue)
     return it != config.end() ? it->second : defaultValue;
 }
 
-void Config::putDatabase(DbConfig& dbc)
+bool Config::putDatabase(DbConfig& dbc)
 {
     const std::string host = get("db.host");
     const std::string port = get("db.port");
@@ -57,7 +57,7 @@ void Config::putDatabase(DbConfig& dbc)
 
     if (host.empty() || port.empty() || user.empty() || password.empty() || database.empty()) {
         std::cerr << "Configuração de banco de dados inválida.\n";
-        return;
+        return false;
     }
 
     dbc.host = host;
@@ -65,4 +65,6 @@ void Config::putDatabase(DbConfig& dbc)
     dbc.user = user;
     dbc.password = password;
     dbc.database = database;
+
+    return true;
 }

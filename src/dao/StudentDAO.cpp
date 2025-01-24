@@ -1,7 +1,6 @@
 #include "dao/StudentDAO.hpp"
 #include "Database.hpp"
 #include "DatabaseManager.hpp"
-#include "DbConfig.hpp"
 #include "entities/ClassEntity.hpp"
 #include "entities/StudentEntity.hpp"
 
@@ -15,9 +14,7 @@
 bool StudentDAO::save(const StudentEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -41,9 +38,7 @@ bool StudentDAO::save(const StudentEntity& entity)
 bool StudentDAO::update(const StudentEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -67,9 +62,7 @@ bool StudentDAO::update(const StudentEntity& entity)
 bool StudentDAO::remove(const std::string& where)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -95,9 +88,7 @@ std::vector<StudentEntity> StudentDAO::search(const std::string& where)
     std::vector<StudentEntity> students;
 
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return students;
 
     try {

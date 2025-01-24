@@ -1,19 +1,22 @@
 #include "DatabaseManager.hpp"
 #include "Config.hpp"
+#include "DbConfig.hpp"
 
 #include <exception>
 #include <iostream>
 
-bool DatabaseManager::initDatabase(Database& db, DbConfig& dbc)
+bool DatabaseManager::initDatabase(Database& db)
 {
     Config config;
+    DbConfig dbc;
 
     if (!config.load()) {
         std::cerr << "Erro ao carregar arquivo de configuração.\n";
         return false;
     }
 
-    config.putDatabase(dbc);
+    if (!config.putDatabase(dbc))
+        return false;
 
     try {
         db.connect(dbc.host, dbc.port, dbc.user, dbc.password, dbc.database);

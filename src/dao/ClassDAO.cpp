@@ -1,7 +1,6 @@
 #include "dao/ClassDAO.hpp"
 #include "Database.hpp"
 #include "DatabaseManager.hpp"
-#include "DbConfig.hpp"
 
 #include <boost/mysql/statement.hpp>
 #include <boost/mysql/results.hpp>
@@ -13,9 +12,7 @@
 bool ClassDAO::save(const ClassEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -39,9 +36,7 @@ bool ClassDAO::save(const ClassEntity& entity)
 bool ClassDAO::update(const ClassEntity& entity)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -65,9 +60,7 @@ bool ClassDAO::update(const ClassEntity& entity)
 bool ClassDAO::remove(const std::string& where)
 {
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return false;
 
     try {
@@ -93,9 +86,7 @@ std::vector<ClassEntity> ClassDAO::search(const std::string& where)
     std::vector<ClassEntity> classes;
 
     Database db;
-    DbConfig dbc;
-
-    if (!DatabaseManager::initDatabase(db, dbc))
+    if (!DatabaseManager::initDatabase(db))
         return classes;
 
     try {
