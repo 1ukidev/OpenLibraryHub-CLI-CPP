@@ -7,6 +7,7 @@ class Util
 {
 public:
     Util() = delete;
+
     static std::string greet();
     static void clean();
 

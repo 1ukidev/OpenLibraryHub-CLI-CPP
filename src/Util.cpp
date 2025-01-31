@@ -1,6 +1,7 @@
 #include "Util.hpp"
 
 #include <chrono>
+#include <cstdint>
 #include <ctime>
 #include <format>
 #include <iomanip>
@@ -54,7 +55,7 @@ T Util::uscan()
 {
     static_assert(std::is_unsigned<T>::value, "O tipo deve ser um número unsigned.");
 
-    unsigned long long input;
+    uint64_t input;
     while (true) {
         std::cin >> input;
 
@@ -76,7 +77,7 @@ T Util::uscan()
 }
 
 template unsigned int Util::uscan();
-template unsigned long Util::uscan<unsigned long>();
+template uint64_t Util::uscan<uint64_t>();
 
 std::chrono::system_clock::time_point Util::tpscan()
 {

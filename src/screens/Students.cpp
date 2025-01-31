@@ -1,12 +1,18 @@
 #include "screens/Students.hpp"
 #include "Util.hpp"
-#include "dao/StudentDAO.hpp"
 #include "entities/ClassEntity.hpp"
 #include "entities/StudentEntity.hpp"
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
+
+Students& Students::getInstance()
+{
+    static Students instance;
+    return instance;
+}
 
 void Students::display()
 {
@@ -53,7 +59,6 @@ bool Students::handleOption()
         // 6 - Voltar
         case 6:
             return false;
-            break;
         default:
             std::cerr << "Opção inválida...\n\n";
             break;
@@ -68,11 +73,9 @@ void Students::save()
     std::string name = Util::scan();
 
     std::cout << "Digite o id da turma: ";
-    unsigned long classId = Util::uscan<unsigned long>();
+    uint64_t classId = Util::uscan<uint64_t>();
 
     StudentEntity student(name, ClassEntity(classId));
-
-    StudentDAO dao;
 
     if (!dao.save(student)) {
         std::cerr << "Erro ao salvar aluno...\n\n";
@@ -87,7 +90,6 @@ void Students::update()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    StudentDAO dao;
     std::vector<StudentEntity> students = dao.search(where);
 
     if (students.empty()) {
@@ -104,10 +106,10 @@ void Students::update()
     std::string name = Util::scan();
 
     std::cout << "Digite o novo id da turma: ";
-    unsigned long classId = Util::uscan<unsigned long>();
+    uint64_t classId = Util::uscan<uint64_t>();
 
-    student.name = name;
-    student.classEntity = ClassEntity(classId);
+    student.setName(name);
+    student.setClassEntity(ClassEntity(classId));
 
     if (!dao.update(student)) {
         std::cerr << "Erro ao atualizar aluno...\n\n";
@@ -122,8 +124,6 @@ void Students::remove()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    StudentDAO dao;
-
     if (!dao.remove(where)) {
         std::cerr << "Erro ao excluir aluno...\n\n";
     } else {
@@ -137,7 +137,6 @@ void Students::search()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    StudentDAO dao;
     std::vector<StudentEntity> students = dao.search(where);
 
     if (students.empty()) {
@@ -153,7 +152,6 @@ void Students::search()
 
 void Students::list()
 {
-    StudentDAO dao;
     std::vector<StudentEntity> students = dao.search("1=1");
 
     if (students.empty()) {

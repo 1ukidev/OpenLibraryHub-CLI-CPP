@@ -6,19 +6,27 @@
 #include <string>
 #include <fstream>
 
-std::string Config::trim(const std::string& str)
+Config& Config::getInstance()
 {
-    const size_t first = str.find_first_not_of(" \t\n\r");
-    const size_t last = str.find_last_not_of(" \t\n\r");
-    return first == std::string::npos || last == std::string::npos ? "" : str.substr(first, last - first + 1);
+    static Config instance;
+    return instance;
 }
 
 bool Config::load()
 {
-    const std::string homePath = std::getenv("HOME");
-    const std::string filePath = homePath + "/olh.properties";
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    std::string path  = std::getenv("HOMEPATH");
+#else
+    std::string path = std::getenv("HOME");
+#endif
+    path += "/olh.properties";
 
-    std::ifstream file(filePath);
+    if (!std::filesystem::exists(path)) {
+        std::cerr << "Arquivo de configuração não encontrado.\n";
+        return false;
+    }
+
+    std::ifstream file(path);
     if (!file.is_open())
         return false;
 
@@ -37,6 +45,9 @@ bool Config::load()
         }
     }
 
+    if (!initDbConfig())
+        return false;
+
     file.close();
     return true;
 }
@@ -47,24 +58,26 @@ std::string Config::get(const std::string& key, const std::string& defaultValue)
     return it != config.end() ? it->second : defaultValue;
 }
 
-bool Config::putDatabase(DbConfig& dbc)
+bool Config::initDbConfig()
 {
-    const std::string host = get("db.host");
-    const std::string port = get("db.port");
-    const std::string user = get("db.user");
-    const std::string password = get("db.password");
-    const std::string database = get("db.database");
+    dbc.port = get("db.port");
+    dbc.host = get("db.host");
+    dbc.user = get("db.user");
+    dbc.password = get("db.password");
+    dbc.database = get("db.database");
 
-    if (host.empty() || port.empty() || user.empty() || password.empty() || database.empty()) {
-        std::cerr << "Configuração de banco de dados inválida.\n";
+    if (dbc.host.empty() || dbc.port.empty() || dbc.user.empty()
+            || dbc.password.empty() || dbc.database.empty()) {
+        std::cerr << "Arquivo de configuracao incompleto\n";
         return false;
     }
 
-    dbc.host = host;
-    dbc.port = port;
-    dbc.user = user;
-    dbc.password = password;
-    dbc.database = database;
-
     return true;
+}
+
+std::string Config::trim(const std::string& str)
+{
+    const size_t first = str.find_first_not_of(" \t\n\r");
+    const size_t last = str.find_last_not_of(" \t\n\r");
+    return first == std::string::npos || last == std::string::npos ? "" : str.substr(first, last - first + 1);
 }

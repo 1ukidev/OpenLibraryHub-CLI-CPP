@@ -1,11 +1,17 @@
-#include "dao/BookDAO.hpp"
 #include "entities/BookEntity.hpp"
 #include "screens/Books.hpp"
 #include "Util.hpp"
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
+
+Books& Books::getInstance()
+{
+    static Books instance;
+    return instance;
+}
 
 void Books::display()
 {
@@ -52,7 +58,6 @@ bool Books::handleOption()
         // 6 - Voltar
         case 6:
             return false;
-            break;
         default:
             std::cerr << "Opção inválida...\n\n";
             break;
@@ -73,17 +78,15 @@ void Books::save()
     std::string section = Util::scan();
 
     std::cout << "Digite o número de páginas: ";
-    unsigned int pages = Util::uscan();
+    uint64_t pages = Util::uscan();
 
     std::cout << "Digite o ano de publicação: ";
-    unsigned int year = Util::uscan();
+    uint64_t year = Util::uscan();
 
     std::cout << "Digite a quantidade em estoque: ";
-    unsigned int stock = Util::uscan();
+    uint64_t stock = Util::uscan();
 
     BookEntity book(title, author, section, pages, year, stock);
-
-    BookDAO dao;
 
     if (!dao.save(book)) {
         std::cerr << "Erro ao cadastrar livro...\n\n";
@@ -98,7 +101,6 @@ void Books::update()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    BookDAO dao;
     std::vector<BookEntity> books = dao.search(where);
 
     if (books.empty()) {
@@ -121,20 +123,20 @@ void Books::update()
     std::string section = Util::scan();
 
     std::cout << "Digite o novo número de páginas: ";
-    unsigned int pages = Util::uscan();
+    uint64_t pages = Util::uscan();
 
     std::cout << "Digite o novo ano de publicação: ";
-    unsigned int year = Util::uscan();
+    uint64_t year = Util::uscan();
 
     std::cout << "Digite a nova quantidade em estoque: ";
-    unsigned int stock = Util::uscan();
+    uint64_t stock = Util::uscan();
 
-    book.title = title;
-    book.author = author;
-    book.section = section;
-    book.pages = pages;
-    book.year = year;
-    book.stock = stock;
+    book.setTitle(title);
+    book.setAuthor(author);
+    book.setSection(section);
+    book.setPages(pages);
+    book.setYear(year);
+    book.setStock(stock);
 
     if (!dao.update(book)) {
         std::cerr << "Erro ao atualizar livro...\n\n";
@@ -149,8 +151,6 @@ void Books::remove()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    BookDAO dao;
-
     if (!dao.remove(where)) {
         std::cerr << "Erro ao excluir livro...\n\n";
     } else {
@@ -164,7 +164,6 @@ void Books::search()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    BookDAO dao;
     std::vector<BookEntity> books = dao.search(where);
 
     if (books.empty()) {
@@ -179,7 +178,6 @@ void Books::search()
 
 void Books::list()
 {
-    BookDAO dao;
     std::vector<BookEntity> books = dao.search("1=1");
 
     if (books.empty()) {

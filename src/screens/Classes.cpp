@@ -1,11 +1,16 @@
 #include "screens/Classes.hpp"
 #include "Util.hpp"
-#include "dao/ClassDAO.hpp"
 #include "entities/ClassEntity.hpp"
 
 #include <iostream>
 #include <string>
 #include <vector>
+
+Classes& Classes::getInstance()
+{
+    static Classes instance;
+    return instance;
+}
 
 void Classes::display()
 {
@@ -52,7 +57,6 @@ bool Classes::handleOption()
         // 6 - Voltar
         case 6:
             return false;
-            break;
         default:
             std::cerr << "Opção inválida...\n\n";
             break;
@@ -68,8 +72,6 @@ void Classes::save()
 
     ClassEntity classEntity(name);
 
-    ClassDAO dao;
-
     if (!dao.save(classEntity)) {
         std::cerr << "Erro ao cadastrar turma...\n\n";
     } else {
@@ -83,7 +85,6 @@ void Classes::update()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    ClassDAO dao;
     std::vector<ClassEntity> classes = dao.search(where);
 
     if (classes.empty()) {
@@ -99,7 +100,7 @@ void Classes::update()
     std::cout << "Digite o novo nome da turma: ";
     std::string name = Util::scan();
 
-    classEntity.name = name;
+    classEntity.setName(name);
 
     if (!dao.update(classEntity)) {
         std::cerr << "Erro ao atualizar turma...\n\n";
@@ -114,8 +115,6 @@ void Classes::remove()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    ClassDAO dao;
-
     if (!dao.remove(where)) {
         std::cerr << "Erro ao excluir turma...\n\n";
     } else {
@@ -129,7 +128,6 @@ void Classes::search()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    ClassDAO dao;
     std::vector<ClassEntity> classes = dao.search(where);
 
     if (classes.empty()) {
@@ -144,7 +142,6 @@ void Classes::search()
 
 void Classes::list()
 {
-    ClassDAO dao;
     std::vector<ClassEntity> classes = dao.search("1=1");
 
     if (classes.empty()) {

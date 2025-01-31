@@ -3,6 +3,12 @@
 
 #include <iostream>
 
+Others& Others::getInstance()
+{
+    static Others instance;
+    return instance;
+}
+
 void Others::display()
 {
     bool running = true;
@@ -28,7 +34,6 @@ bool Others::handleOption()
         // 2 - Sair
         case 2:
             return false;
-            break;
         default:
             std::cerr << "Opção inválida.\n\n";
             break;

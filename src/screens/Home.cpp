@@ -8,6 +8,12 @@
 
 #include <iostream>
 
+Home& Home::getInstance()
+{
+    static Home instance;
+    return instance;
+}
+
 void Home::display()
 {
     bool running = true;
@@ -35,31 +41,31 @@ bool Home::handleOption()
     switch (option) {
         // 1 - Livros
         case 1: {
-            Books books;
+            auto& books = Books::getInstance();
             books.display();
             break;
         }
         // 2 - Turmas
         case 2: {
-            Classes classes;
+            auto& classes = Classes::getInstance();
             classes.display();
             break;
         }
         // 3 - Alunos
         case 3: {
-            Students students;
+            auto& students = Students::getInstance();
             students.display();
             break;
         }
         // 4- Empréstimos
         case 4: {
-            Loans loans;
+            auto& loans = Loans::getInstance();
             loans.display();
             break;
         }
         // 5 - Outros
         case 5: {
-            Others others;
+            auto& others = Others::getInstance();
             others.display();
             break;
         }
@@ -67,7 +73,6 @@ bool Home::handleOption()
         case 6:
             std::cout << "Até mais!\n";
             return false;
-            break;
         default:
             std::cerr << "Opção inválida.\n\n";
             break;

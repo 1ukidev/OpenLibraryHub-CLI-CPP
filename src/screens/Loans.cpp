@@ -1,12 +1,18 @@
 #include "screens/Loans.hpp"
 #include "Util.hpp"
-#include "dao/LoanDAO.hpp"
 #include "entities/BookEntity.hpp"
 #include "entities/LoanEntity.hpp"
 #include "entities/StudentEntity.hpp"
 
+#include <cstdint>
 #include <iostream>
 #include <vector>
+
+Loans& Loans::getInstance()
+{
+    static Loans instance;
+    return instance;
+}
 
 void Loans::display()
 {
@@ -53,7 +59,6 @@ bool Loans::handleOption()
         // 6 - Voltar
         case 6:
             return false;
-            break;
         default:
             std::cerr << "Opção inválida...\n\n";
             break;
@@ -65,10 +70,10 @@ bool Loans::handleOption()
 void Loans::save()
 {
     std::cout << "Digite o id do livro: ";
-    unsigned long bookId = Util::uscan<unsigned long>();
+    uint64_t bookId = Util::uscan<uint64_t>();
 
     std::cout << "Digite o id do aluno: ";
-    unsigned long studentId = Util::uscan<unsigned long>();
+    uint64_t studentId = Util::uscan<uint64_t>();
 
     std::cout << "Digite a data de empréstimo [DD/MM/YYYY]: ";
     auto loanDate = Util::tpscan();
@@ -77,8 +82,6 @@ void Loans::save()
     auto returnDate = Util::tpscan();
 
     LoanEntity loan(BookEntity(bookId), StudentEntity(studentId), loanDate, returnDate);
-
-    LoanDAO dao;
     
     if (!dao.save(loan)) {
         std::cerr << "Erro ao salvar empréstimo...\n\n";
@@ -93,7 +96,6 @@ void Loans::update()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    LoanDAO dao;
     std::vector<LoanEntity> loans = dao.search(where);
 
     if (loans.empty()) {
@@ -107,10 +109,10 @@ void Loans::update()
     LoanEntity loan = loans[0];
 
     std::cout << "Digite o novo id do livro: ";
-    unsigned long bookId = Util::uscan<unsigned long>();
+    uint64_t bookId = Util::uscan<uint64_t>();
 
     std::cout << "Digite o novo id do aluno: ";
-    unsigned long studentId = Util::uscan<unsigned long>();
+    uint64_t studentId = Util::uscan<uint64_t>();
 
     std::cout << "Digite a nova data de empréstimo [DD/MM/YYYY]: ";
     auto loanDate = Util::tpscan();
@@ -118,10 +120,10 @@ void Loans::update()
     std::cout << "Digite a nova data de devolução [DD/MM/YYYY]: ";
     auto returnDate = Util::tpscan();
 
-    loan.bookEntity.id = bookId;
-    loan.studentEntity.id = studentId;
-    loan.loanDate = loanDate;
-    loan.returnDate = returnDate;
+    loan.setBookEntity(BookEntity(bookId));
+    loan.setStudentEntity(StudentEntity(studentId));
+    loan.setLoanDate(loanDate);
+    loan.setReturnDate(returnDate);
 
     if (!dao.update(loan)) {
         std::cerr << "Erro ao atualizar empréstimo...\n\n";
@@ -136,7 +138,6 @@ void Loans::remove()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    LoanDAO dao;
     if (!dao.remove(where)) {
         std::cerr << "Erro ao remover empréstimo...\n\n";
     } else {
@@ -150,7 +151,6 @@ void Loans::search()
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    LoanDAO dao;
     std::vector<LoanEntity> loans = dao.search(where);
 
     if (loans.empty()) {
@@ -165,7 +165,6 @@ void Loans::search()
 
 void Loans::list()
 {
-    LoanDAO dao;
     std::vector<LoanEntity> loans = dao.search("1=1");
 
     if (loans.empty()) {

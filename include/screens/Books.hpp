@@ -1,12 +1,14 @@
 #pragma once
 
+#include "dao/BookDAO.hpp"
 #include "screens/CRUDScreen.hpp"
 
 class Books : public CRUDScreen
 {
 public:
-    Books() = default;
-    ~Books() override = default;
+    Books(const Books&) = delete;
+    Books& operator=(const Books&) = delete;
+    static Books& getInstance();
 
     void display() override;
     bool handleOption() override;
@@ -15,4 +17,10 @@ public:
     void remove() override;
     void search() override;
     void list() override;
+
+private:
+    Books() = default;
+    ~Books() override = default;
+
+    BookDAO& dao = BookDAO::getInstance();
 };

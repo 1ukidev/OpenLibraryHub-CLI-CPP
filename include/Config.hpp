@@ -7,12 +7,21 @@
 
 class Config
 {
-private:
-    std::map<std::string, std::string> config;
-    std::string trim(const std::string& str);
-
 public:
+    Config(const Config&) = delete;
+    Config& operator=(const Config&) = delete;
+    static Config& getInstance();
+
     bool load();
     std::string get(const std::string& key, const std::string& defaultValue = "") const;
-    bool putDatabase(DbConfig& dbc);
+
+    DbConfig dbc;
+
+private:
+    Config() = default;
+    ~Config() = default;
+
+    std::map<std::string, std::string> config;
+    std::string trim(const std::string& str);
+    bool initDbConfig();
 };

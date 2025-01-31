@@ -1,4 +1,4 @@
-# OpenLibraryHub-CLI (C++)
+# OpenLibraryHub-CLI (C++) (WIP)
 
 Um simples sistema de alto desempenho para bibliotecas.
 

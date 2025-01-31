@@ -3,7 +3,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/mysql/tcp_ssl.hpp>
-#include <string_view>
+#include <string>
 
 class Database
 {
@@ -16,8 +16,8 @@ public:
 
     Database() : connection(ioContext_, sslContext_) {}
 
-    void connect(std::string_view host, std::string_view port, std::string_view user,
-                 std::string_view password, std::string_view schema);
+    void connect(const std::string& host, const std::string& port, const std::string& user,
+                 const std::string& password, const std::string& schema);
 
     ~Database() {
         connection.close();

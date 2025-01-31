@@ -1,14 +1,6 @@
 #include "entities/BookEntity.hpp"
 
 #include <string>
-#include <string_view>
-
-BookEntity::BookEntity(std::string_view title, std::string_view author,
-                       std::string_view section, unsigned int pages,
-                       unsigned int year, unsigned int stock)
-    : title(title), author(author), section(section),
-      pages(pages), year(year), stock(stock) {}
-BookEntity::BookEntity(unsigned long id) : id(id) {}
 
 std::string BookEntity::toString() const
 {
