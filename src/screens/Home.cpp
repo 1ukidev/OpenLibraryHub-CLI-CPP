@@ -1,10 +1,10 @@
 #include "screens/Home.hpp"
-#include "screens/Books.hpp"
-#include "screens/Classes.hpp"
-#include "screens/Loans.hpp"
-#include "screens/Others.hpp"
+#include "screens/Livros.hpp"
+#include "screens/Turmas.hpp"
+#include "screens/Emprestimos.hpp"
+#include "screens/Outros.hpp"
 #include "Util.hpp"
-#include "screens/Students.hpp"
+#include "screens/Alunos.hpp"
 
 #include <iostream>
 
@@ -41,32 +41,32 @@ bool Home::handleOption()
     switch (option) {
         // 1 - Livros
         case 1: {
-            auto& books = Books::getInstance();
-            books.display();
+            auto& Livros = Livros::getInstance();
+            Livros.display();
             break;
         }
         // 2 - Turmas
         case 2: {
-            auto& classes = Classes::getInstance();
-            classes.display();
+            auto& Turmas = Turmas::getInstance();
+            Turmas.display();
             break;
         }
         // 3 - Alunos
         case 3: {
-            auto& students = Students::getInstance();
-            students.display();
+            auto& Alunos = Alunos::getInstance();
+            Alunos.display();
             break;
         }
         // 4- Empréstimos
         case 4: {
-            auto& loans = Loans::getInstance();
-            loans.display();
+            auto& Emprestimos = Emprestimos::getInstance();
+            Emprestimos.display();
             break;
         }
         // 5 - Outros
         case 5: {
-            auto& others = Others::getInstance();
-            others.display();
+            auto& outros = Outros::getInstance();
+            outros.display();
             break;
         }
         // 6 - Sair

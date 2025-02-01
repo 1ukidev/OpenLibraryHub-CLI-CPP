@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Database.hpp"
-#include "DatabaseManager.hpp"
 #include "entities/Entity.hpp"
 
 #include <boost/mysql/results.hpp>
@@ -23,7 +22,7 @@ public:
 
     virtual bool save(T& entity) {
         Database db;
-        if (!DatabaseManager::initDatabase(db))
+        if (!db.init())
             return false;
 
         try {
@@ -45,7 +44,7 @@ public:
 
     virtual bool update(const T& entity) {
         Database db;
-        if (!DatabaseManager::initDatabase(db))
+        if (!db.init())
             return false;
 
         try {
@@ -67,7 +66,7 @@ public:
 
     virtual bool remove(const std::string& where) {
         Database db;
-        if (!DatabaseManager::initDatabase(db))
+        if (!db.init())
             return false;
 
         try {
@@ -89,7 +88,7 @@ public:
         std::vector<T> entities;
 
         Database db;
-        if (!DatabaseManager::initDatabase(db))
+        if (!db.init())
             return entities;
 
         try {

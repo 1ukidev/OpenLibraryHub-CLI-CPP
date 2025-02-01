@@ -1,20 +1,20 @@
-#include "screens/Loans.hpp"
+#include "screens/Emprestimos.hpp"
 #include "Util.hpp"
-#include "entities/BookEntity.hpp"
-#include "entities/LoanEntity.hpp"
-#include "entities/StudentEntity.hpp"
+#include "entities/LivroEntity.hpp"
+#include "entities/EmprestimoEntity.hpp"
+#include "entities/AlunoEntity.hpp"
 
 #include <cstdint>
 #include <iostream>
 #include <vector>
 
-Loans& Loans::getInstance()
+Emprestimos& Emprestimos::getInstance()
 {
-    static Loans instance;
+    static Emprestimos instance;
     return instance;
 }
 
-void Loans::display()
+void Emprestimos::display()
 {
     bool running = true;
     while (running) {
@@ -30,7 +30,7 @@ void Loans::display()
     }
 }
 
-bool Loans::handleOption()
+bool Emprestimos::handleOption()
 {
     unsigned int option = Util::uscan();
     Util::clean();
@@ -67,23 +67,24 @@ bool Loans::handleOption()
     return true;
 }
 
-void Loans::save()
+void Emprestimos::save()
 {
     std::cout << "Digite o id do livro: ";
-    uint64_t bookId = Util::uscan<uint64_t>();
+    uint64_t livroId = Util::uscan<uint64_t>();
 
     std::cout << "Digite o id do aluno: ";
-    uint64_t studentId = Util::uscan<uint64_t>();
+    uint64_t alunoId = Util::uscan<uint64_t>();
 
     std::cout << "Digite a data de empréstimo [DD/MM/YYYY]: ";
-    auto loanDate = Util::tpscan();
+    auto dataEmpresitmo = Util::tpscan();
 
     std::cout << "Digite a data de devolução [DD/MM/YYYY]: ";
-    auto returnDate = Util::tpscan();
+    auto dataDevolucao = Util::tpscan();
 
-    LoanEntity loan(BookEntity(bookId), StudentEntity(studentId), loanDate, returnDate);
+    EmprestimoEntity emprestimo(LivroEntity(livroId), AlunoEntity(alunoId),
+                                dataEmpresitmo, dataDevolucao);
     
-    if (!dao.save(loan)) {
+    if (!dao.save(emprestimo)) {
         std::cerr << "Erro ao salvar empréstimo...\n\n";
     } else {
         Util::clean();
@@ -91,41 +92,41 @@ void Loans::save()
     }
 }
 
-void Loans::update()
+void Emprestimos::update()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<LoanEntity> loans = dao.search(where);
+    std::vector<EmprestimoEntity> emprestimos = dao.search(where);
 
-    if (loans.empty()) {
+    if (emprestimos.empty()) {
         std::cerr << "Nenhum empréstimo encontrado...\n\n";
         return;
-    } else if (loans.size() > 1) {
+    } else if (emprestimos.size() > 1) {
         std::cerr << "Mais de um empréstimo encontrado...\n\n";
         return;
     }
 
-    LoanEntity loan = loans[0];
+    EmprestimoEntity emprestimo = emprestimos[0];
 
     std::cout << "Digite o novo id do livro: ";
-    uint64_t bookId = Util::uscan<uint64_t>();
+    uint64_t livroId = Util::uscan<uint64_t>();
 
     std::cout << "Digite o novo id do aluno: ";
-    uint64_t studentId = Util::uscan<uint64_t>();
+    uint64_t alunoId = Util::uscan<uint64_t>();
 
     std::cout << "Digite a nova data de empréstimo [DD/MM/YYYY]: ";
-    auto loanDate = Util::tpscan();
+    auto dataEmprestimo = Util::tpscan();
 
     std::cout << "Digite a nova data de devolução [DD/MM/YYYY]: ";
-    auto returnDate = Util::tpscan();
+    auto dataDevolucao = Util::tpscan();
 
-    loan.setBookEntity(BookEntity(bookId));
-    loan.setStudentEntity(StudentEntity(studentId));
-    loan.setLoanDate(loanDate);
-    loan.setReturnDate(returnDate);
+    emprestimo.setLivroEntity(LivroEntity(livroId));
+    emprestimo.setAlunoEntity(AlunoEntity(alunoId));
+    emprestimo.setDataEmprestimo(dataEmprestimo);
+    emprestimo.setDataDevolucao(dataDevolucao);
 
-    if (!dao.update(loan)) {
+    if (!dao.update(emprestimo)) {
         std::cerr << "Erro ao atualizar empréstimo...\n\n";
     } else {
         Util::clean();
@@ -133,7 +134,7 @@ void Loans::update()
     }
 }
 
-void Loans::remove()
+void Emprestimos::remove()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
@@ -146,32 +147,32 @@ void Loans::remove()
     }
 }
 
-void Loans::search()
+void Emprestimos::search()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<LoanEntity> loans = dao.search(where);
+    std::vector<EmprestimoEntity> emprestimos = dao.search(where);
 
-    if (loans.empty()) {
+    if (emprestimos.empty()) {
         std::cerr << "Nenhum empréstimo encontrado...\n\n";
         return;
     }
 
     Util::clean();
-    for (const auto& loan : loans)
+    for (const auto& loan : emprestimos)
         std::cout << loan.toString() << '\n';
 }
 
-void Loans::list()
+void Emprestimos::list()
 {
-    std::vector<LoanEntity> loans = dao.search("1=1");
+    std::vector<EmprestimoEntity> emprestimos = dao.search("1=1");
 
-    if (loans.empty()) {
+    if (emprestimos.empty()) {
         std::cerr << "Nenhum empréstimo encontrado...\n\n";
         return;
     }
 
-    for (const auto& loan : loans)
+    for (const auto& loan : emprestimos)
         std::cout << loan.toString() << '\n';
 }

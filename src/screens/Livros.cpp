@@ -1,5 +1,5 @@
-#include "entities/BookEntity.hpp"
-#include "screens/Books.hpp"
+#include "entities/LivroEntity.hpp"
+#include "screens/Livros.hpp"
 #include "Util.hpp"
 
 #include <cstdint>
@@ -7,13 +7,13 @@
 #include <string>
 #include <vector>
 
-Books& Books::getInstance()
+Livros& Livros::getInstance()
 {
-    static Books instance;
+    static Livros instance;
     return instance;
 }
 
-void Books::display()
+void Livros::display()
 {
     bool running = true;
     while (running) {
@@ -29,7 +29,7 @@ void Books::display()
     }
 }
 
-bool Books::handleOption()
+bool Livros::handleOption()
 {
     unsigned int option = Util::uscan();
     Util::clean();
@@ -66,29 +66,29 @@ bool Books::handleOption()
     return true;
 }
 
-void Books::save()
+void Livros::save()
 {
     std::cout << "Digite o nome do livro: ";
-    std::string title = Util::scan();
+    std::string titulo = Util::scan();
 
     std::cout << "Digite o nome do autor: ";
-    std::string author = Util::scan();
+    std::string autor = Util::scan();
 
     std::cout << "Digite a seção: ";
-    std::string section = Util::scan();
+    std::string secao = Util::scan();
 
     std::cout << "Digite o número de páginas: ";
-    uint64_t pages = Util::uscan();
+    uint64_t paginas = Util::uscan();
 
     std::cout << "Digite o ano de publicação: ";
-    uint64_t year = Util::uscan();
+    uint64_t ano = Util::uscan();
 
     std::cout << "Digite a quantidade em estoque: ";
-    uint64_t stock = Util::uscan();
+    uint64_t estoque = Util::uscan();
 
-    BookEntity book(title, author, section, pages, year, stock);
+    LivroEntity livro(titulo, autor, secao, paginas, ano, estoque);
 
-    if (!dao.save(book)) {
+    if (!dao.save(livro)) {
         std::cerr << "Erro ao cadastrar livro...\n\n";
     } else {
         Util::clean();
@@ -96,49 +96,49 @@ void Books::save()
     }
 }
 
-void Books::update()
+void Livros::update()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<BookEntity> books = dao.search(where);
+    std::vector<LivroEntity> livros = dao.search(where);
 
-    if (books.empty()) {
+    if (livros.empty()) {
         std::cerr << "Livro não encontrado...\n\n";
         return;
-    } else if (books.size() > 1) {
+    } else if (livros.size() > 1) {
         std::cerr << "Mais de um livro encontrado...\n\n";
         return;
     }
 
-    BookEntity book = books[0];
+    LivroEntity livro = livros[0];
 
     std::cout << "Digite o novo nome do livro: ";
-    std::string title = Util::scan();
+    std::string titulo = Util::scan();
 
     std::cout << "Digite o novo nome do autor: ";
-    std::string author = Util::scan();
+    std::string autor = Util::scan();
 
     std::cout << "Digite a nova seção: ";
-    std::string section = Util::scan();
+    std::string secao = Util::scan();
 
     std::cout << "Digite o novo número de páginas: ";
-    uint64_t pages = Util::uscan();
+    uint64_t paginas = Util::uscan();
 
     std::cout << "Digite o novo ano de publicação: ";
-    uint64_t year = Util::uscan();
+    uint64_t ano = Util::uscan();
 
     std::cout << "Digite a nova quantidade em estoque: ";
-    uint64_t stock = Util::uscan();
+    uint64_t estoque = Util::uscan();
 
-    book.setTitle(title);
-    book.setAuthor(author);
-    book.setSection(section);
-    book.setPages(pages);
-    book.setYear(year);
-    book.setStock(stock);
+    livro.setTitulo(titulo);
+    livro.setAutor(autor);
+    livro.setSecao(secao);
+    livro.setPaginas(paginas);
+    livro.setAno(ano);
+    livro.setEstoque(estoque);
 
-    if (!dao.update(book)) {
+    if (!dao.update(livro)) {
         std::cerr << "Erro ao atualizar livro...\n\n";
     } else {
         Util::clean();
@@ -146,7 +146,7 @@ void Books::update()
     }
 }
 
-void Books::remove()
+void Livros::remove()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
@@ -159,32 +159,32 @@ void Books::remove()
     }
 }
 
-void Books::search()
+void Livros::search()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<BookEntity> books = dao.search(where);
+    std::vector<LivroEntity> livros = dao.search(where);
 
-    if (books.empty()) {
+    if (livros.empty()) {
         std::cerr << "Nenhum livro encontrado...\n\n";
         return;
     }
 
     Util::clean();
-    for (const auto& book : books)
+    for (const auto& book : livros)
         std::cout << book.toString() << '\n';
 }
 
-void Books::list()
+void Livros::list()
 {
-    std::vector<BookEntity> books = dao.search("1=1");
+    std::vector<LivroEntity> livros = dao.search("1=1");
 
-    if (books.empty()) {
+    if (livros.empty()) {
         std::cerr << "Nenhum livro cadastrado...\n\n";
         return;
     }
 
-    for (const auto& book : books)
+    for (const auto& book : livros)
         std::cout << book.toString() << '\n';
 }

@@ -1,20 +1,20 @@
-#include "screens/Students.hpp"
+#include "screens/Alunos.hpp"
 #include "Util.hpp"
-#include "entities/ClassEntity.hpp"
-#include "entities/StudentEntity.hpp"
+#include "entities/TurmaEntity.hpp"
+#include "entities/AlunoEntity.hpp"
 
 #include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
 
-Students& Students::getInstance()
+Alunos& Alunos::getInstance()
 {
-    static Students instance;
+    static Alunos instance;
     return instance;
 }
 
-void Students::display()
+void Alunos::display()
 {
     bool running = true;
     while (running) {
@@ -30,7 +30,7 @@ void Students::display()
     }
 }
 
-bool Students::handleOption()
+bool Alunos::handleOption()
 {
     unsigned int option = Util::uscan();
     Util::clean();
@@ -67,17 +67,17 @@ bool Students::handleOption()
     return true;
 }
 
-void Students::save()
+void Alunos::save()
 {
     std::cout << "Digite o nome do aluno: ";
-    std::string name = Util::scan();
+    std::string nome = Util::scan();
 
     std::cout << "Digite o id da turma: ";
-    uint64_t classId = Util::uscan<uint64_t>();
+    uint64_t turmaId = Util::uscan<uint64_t>();
 
-    StudentEntity student(name, ClassEntity(classId));
+    AlunoEntity aluno(nome, TurmaEntity(turmaId));
 
-    if (!dao.save(student)) {
+    if (!dao.save(aluno)) {
         std::cerr << "Erro ao salvar aluno...\n\n";
     } else {
         Util::clean();
@@ -85,33 +85,33 @@ void Students::save()
     }
 }
 
-void Students::update()
+void Alunos::update()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<StudentEntity> students = dao.search(where);
+    std::vector<AlunoEntity> alunos = dao.search(where);
 
-    if (students.empty()) {
+    if (alunos.empty()) {
         std::cerr << "Nenhum aluno encontrado...\n\n";
         return;
-    } else if (students.size() > 1) {
+    } else if (alunos.size() > 1) {
         std::cerr << "Mais de um aluno encontrado...\n\n";
         return;
     }
 
-    StudentEntity student = students[0];
+    AlunoEntity aluno = alunos[0];
 
     std::cout << "Digite o novo nome do aluno: ";
-    std::string name = Util::scan();
+    std::string nome = Util::scan();
 
     std::cout << "Digite o novo id da turma: ";
-    uint64_t classId = Util::uscan<uint64_t>();
+    uint64_t turmaId = Util::uscan<uint64_t>();
 
-    student.setName(name);
-    student.setClassEntity(ClassEntity(classId));
+    aluno.setNome(nome);
+    aluno.setTurmaEntity(TurmaEntity(turmaId));
 
-    if (!dao.update(student)) {
+    if (!dao.update(aluno)) {
         std::cerr << "Erro ao atualizar aluno...\n\n";
     } else {
         Util::clean();
@@ -119,7 +119,7 @@ void Students::update()
     }
 }
 
-void Students::remove()
+void Alunos::remove()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
@@ -132,33 +132,33 @@ void Students::remove()
     }
 }
 
-void Students::search()
+void Alunos::search()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<StudentEntity> students = dao.search(where);
+    std::vector<AlunoEntity> alunos = dao.search(where);
 
-    if (students.empty()) {
+    if (alunos.empty()) {
         std::cerr << "Nenhum aluno encontrado...\n\n";
         return;
     }
 
     Util::clean();
-    for (const auto& student : students) {
+    for (const auto& student : alunos) {
         std::cout << student.toString() << '\n';
     }
 }
 
-void Students::list()
+void Alunos::list()
 {
-    std::vector<StudentEntity> students = dao.search("1=1");
+    std::vector<AlunoEntity> alunos = dao.search("1=1");
 
-    if (students.empty()) {
+    if (alunos.empty()) {
         std::cerr << "Nenhum aluno encontrado...\n\n";
         return;
     }
 
-    for (const auto& student : students)
+    for (const auto& student : alunos)
         std::cout << student.toString() << '\n';
 }

@@ -1,15 +1,15 @@
-#include "screens/Others.hpp"
+#include "screens/Outros.hpp"
 #include "Util.hpp"
 
 #include <iostream>
 
-Others& Others::getInstance()
+Outros& Outros::getInstance()
 {
-    static Others instance;
+    static Outros instance;
     return instance;
 }
 
-void Others::display()
+void Outros::display()
 {
     bool running = true;
     while (running) {
@@ -21,7 +21,7 @@ void Others::display()
     }
 }
 
-bool Others::handleOption()
+bool Outros::handleOption()
 {
     unsigned int option = Util::uscan();
     Util::clean();
@@ -42,7 +42,7 @@ bool Others::handleOption()
     return true;
 }
 
-void Others::about()
+void Outros::about()
 {
     std::cout << "OpenLibraryHub é um sistema de gerenciamento de bibliotecas.\n";
     std::cout << "Desenvolvido por: 1ukidev\n";

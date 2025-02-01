@@ -1,18 +1,18 @@
-#include "screens/Classes.hpp"
+#include "screens/Turmas.hpp"
 #include "Util.hpp"
-#include "entities/ClassEntity.hpp"
+#include "entities/TurmaEntity.hpp"
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-Classes& Classes::getInstance()
+Turmas& Turmas::getInstance()
 {
-    static Classes instance;
+    static Turmas instance;
     return instance;
 }
 
-void Classes::display()
+void Turmas::display()
 {
     bool running = true;
     while (running) {
@@ -28,7 +28,7 @@ void Classes::display()
     }
 }
 
-bool Classes::handleOption()
+bool Turmas::handleOption()
 {
     unsigned int option = Util::uscan();
     Util::clean();
@@ -65,14 +65,14 @@ bool Classes::handleOption()
     return true;
 }
 
-void Classes::save()
+void Turmas::save()
 {
     std::cout << "Digite o nome da turma: ";
-    std::string name = Util::scan();
+    std::string nome = Util::scan();
 
-    ClassEntity classEntity(name);
+    TurmaEntity turma(nome);
 
-    if (!dao.save(classEntity)) {
+    if (!dao.save(turma)) {
         std::cerr << "Erro ao cadastrar turma...\n\n";
     } else {
         Util::clean();
@@ -80,29 +80,29 @@ void Classes::save()
     }
 }
 
-void Classes::update()
+void Turmas::update()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<ClassEntity> classes = dao.search(where);
+    std::vector<TurmaEntity> turmas = dao.search(where);
 
-    if (classes.empty()) {
+    if (turmas.empty()) {
         std::cout << "Nenhuma turma encontrada...\n\n";
         return;
-    } else if (classes.size() > 1) {
+    } else if (turmas.size() > 1) {
         std::cerr << "Mais de uma turma encontrada...\n\n";
         return;
     }
 
-    ClassEntity classEntity = classes[0];
+    TurmaEntity turma = turmas[0];
 
     std::cout << "Digite o novo nome da turma: ";
-    std::string name = Util::scan();
+    std::string nome = Util::scan();
 
-    classEntity.setName(name);
+    turma.setNome(nome);
 
-    if (!dao.update(classEntity)) {
+    if (!dao.update(turma)) {
         std::cerr << "Erro ao atualizar turma...\n\n";
     } else {
         Util::clean();
@@ -110,7 +110,7 @@ void Classes::update()
     }
 }
 
-void Classes::remove()
+void Turmas::remove()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
@@ -123,32 +123,32 @@ void Classes::remove()
     }
 }
 
-void Classes::search()
+void Turmas::search()
 {
     std::cout << "where: ";
     std::string where = Util::scan();
 
-    std::vector<ClassEntity> classes = dao.search(where);
+    std::vector<TurmaEntity> turmas = dao.search(where);
 
-    if (classes.empty()) {
+    if (turmas.empty()) {
         std::cout << "Nenhuma turma encontrada...\n\n";
         return;
     }
 
     Util::clean();
-    for (const auto& classEntity : classes)
-        std::cout << classEntity.toString() << '\n';
+    for (const auto& TurmaEntity : turmas)
+        std::cout << TurmaEntity.toString() << '\n';
 }
 
-void Classes::list()
+void Turmas::list()
 {
-    std::vector<ClassEntity> classes = dao.search("1=1");
+    std::vector<TurmaEntity> turmas = dao.search("1=1");
 
-    if (classes.empty()) {
+    if (turmas.empty()) {
         std::cout << "Nenhuma turma encontrada...\n\n";
         return;
     }
 
-    for (const auto& classEntity : classes)
-        std::cout << classEntity.toString() << '\n';
+    for (const auto& TurmaEntity : turmas)
+        std::cout << TurmaEntity.toString() << '\n';
 }
