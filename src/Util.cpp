@@ -83,15 +83,7 @@ std::chrono::system_clock::time_point Util::tpscan()
 {
     std::string input;
     while (true) {
-        if (!std::getline(std::cin, input)) {
-            std::cerr << "Erro ao ler a entrada.\n";
-            continue;
-        }
-
-        if (input.empty()) {
-            std::cerr << "Tente novamente: ";
-            continue;
-        }
+        input = scan();
 
         std::tm tm{};
         std::istringstream ss(input);
