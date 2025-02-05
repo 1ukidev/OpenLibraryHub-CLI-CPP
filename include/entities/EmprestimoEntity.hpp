@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Util.hpp"
 #include "entities/LivroEntity.hpp"
 #include "entities/Entity.hpp"
 #include "entities/AlunoEntity.hpp"
@@ -15,61 +14,46 @@ class EmprestimoEntity : public Entity
 {
 public:
     EmprestimoEntity() = default;
-    ~EmprestimoEntity() override = default;
+    ~EmprestimoEntity() = default;
 
     EmprestimoEntity(const LivroEntity& livroEntity, const AlunoEntity& alunoEntity,
                const std::chrono::system_clock::time_point& dataEmpresitmo,
                const std::chrono::system_clock::time_point& dataDevolucao)
-        : livroEntity(livroEntity), alunoEntity(alunoEntity),
-          dataEmpresitmo(dataEmpresitmo), dataDevolucao(dataDevolucao) {};
+        : livroEntity_(livroEntity), alunoEntity_(alunoEntity),
+          dataEmpresitmo_(dataEmpresitmo), dataDevolucao_(dataDevolucao) {};
 
     std::string getClassName() const override { return "EmprestimoEntity"; }
     std::string getTable() const override { return "emprestimos"; }
 
-    const std::unordered_map<std::string, std::string> getColumns() const override {
-        return {
-            {"livro", std::to_string(livroEntity.getId())},
-            {"aluno", std::to_string(alunoEntity.getId())},
-            {"data_emprestimo", Util::timePointToString(dataEmpresitmo, "{:%Y-%m-%d}")},
-            {"data_devolucao", Util::timePointToString(dataDevolucao, "{:%Y-%m-%d}")}
-        };
-    }
+    const std::unordered_map<std::string, std::string> getColumns() const override;
 
-    void fromRowSet(const boost::mysql::row_view& row) override {
-        if (!row.empty()) {
-            id = row[0].get_uint64();
-            livroEntity.setId(row[1].get_uint64());
-            alunoEntity.setId(row[2].get_uint64());
-            dataEmpresitmo = row[3].get_date().get_time_point();
-            dataDevolucao = row[4].get_date().get_time_point();
-        }
-    }
+    void fromRowSet(const boost::mysql::row_view& row) override;
 
-    uint64_t getId() const override { return id; }
-    void setId(uint64_t id) override { this->id = id; }
+    uint64_t getId() const override { return id_; }
+    void setId(uint64_t id) override { this->id_ = id; }
 
-    const LivroEntity& getLivroEntity() const { return livroEntity; }
-    void setLivroEntity(const LivroEntity& livroEntity) { this->livroEntity = livroEntity; }
+    const LivroEntity& getLivroEntity() const { return livroEntity_; }
+    void setLivroEntity(const LivroEntity& livroEntity) { this->livroEntity_ = livroEntity; }
 
-    const AlunoEntity& getAlunoEntity() const { return alunoEntity; }
-    void setAlunoEntity(const AlunoEntity& alunoEntity) { this->alunoEntity = alunoEntity; }
+    const AlunoEntity& getAlunoEntity() const { return alunoEntity_; }
+    void setAlunoEntity(const AlunoEntity& alunoEntity) { this->alunoEntity_ = alunoEntity; }
 
-    const std::chrono::system_clock::time_point& getDataEmprestimo() const { return dataEmpresitmo; }
+    const std::chrono::system_clock::time_point& getDataEmprestimo() const { return dataEmpresitmo_; }
     void setDataEmprestimo(const std::chrono::system_clock::time_point& dataEmpresitmo) {
-        this->dataEmpresitmo = dataEmpresitmo;
+        this->dataEmpresitmo_ = dataEmpresitmo;
     }
 
-    const std::chrono::system_clock::time_point& getDataDevolucao() const { return dataDevolucao; }
+    const std::chrono::system_clock::time_point& getDataDevolucao() const { return dataDevolucao_; }
     void setDataDevolucao(const std::chrono::system_clock::time_point& dataDevolucao) {
-        this->dataDevolucao = dataDevolucao;
+        this->dataDevolucao_ = dataDevolucao;
     }
 
     std::string toString() const override;
 
 private:
-    uint64_t id{};
-    LivroEntity livroEntity;
-    AlunoEntity alunoEntity;
-    std::chrono::system_clock::time_point dataEmpresitmo;
-    std::chrono::system_clock::time_point dataDevolucao;
+    uint64_t id_{};
+    LivroEntity livroEntity_;
+    AlunoEntity alunoEntity_;
+    std::chrono::system_clock::time_point dataEmpresitmo_;
+    std::chrono::system_clock::time_point dataDevolucao_;
 };

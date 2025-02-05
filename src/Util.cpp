@@ -115,3 +115,8 @@ std::string Util::timePointToString(const std::chrono::system_clock::time_point&
 
     return s;
 }
+
+bool Util::isNumber(const std::string& str)
+{
+    return !str.empty() && std::all_of(str.begin(), str.end(), ::isdigit);
+}

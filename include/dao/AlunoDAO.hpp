@@ -12,5 +12,5 @@ public:
 
 private:
     AlunoDAO() = default;
-    ~AlunoDAO() override = default;
+    ~AlunoDAO() = default;
 };

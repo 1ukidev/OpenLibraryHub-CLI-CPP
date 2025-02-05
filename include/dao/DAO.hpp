@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Database.hpp"
+#include "Util.hpp"
 #include "entities/Entity.hpp"
 
 #include <boost/mysql/results.hpp>
@@ -9,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 template <class T>
@@ -113,18 +115,24 @@ public:
 
 private:
     std::string buildInsertQuery(const T& entity) {
+        const std::unordered_map<std::string, std::string> columns = entity.getColumns();
+
         std::string sql = "INSERT INTO " + entity.getTable() + " (";
-        for (const auto& [column, _] : entity.getColumns()) {
+        for (const auto& [column, _] : columns)
             sql += column + ", ";
-        }
+
         sql.pop_back(); sql.pop_back();
 
         sql += ") VALUES (";
-        for (const auto& [_, value] : entity.getColumns()) {
-            sql += "'" + value + "', ";
+        for (const auto& [_, value] : columns) {
+            if (Util::isNumber(value))
+                sql += value + ", ";
+            else
+                sql += '\'' + value + '\'' + ", ";
         }
+
         sql.pop_back(); sql.pop_back();
-        sql += ")";
+        sql += ')';
 
         return sql;
     }
@@ -132,8 +140,12 @@ private:
     std::string buildUpdateQuery(const T& entity) {
         std::string sql = "UPDATE " + entity.getTable() + " SET ";
         for (const auto& [column, value] : entity.getColumns()) {
-            sql += column + " = '" + value + "', ";
+            if (Util::isNumber(value))
+                sql += column + " = " + value + ", ";
+            else
+                sql += column + " = '" + value + '\'' + ", ";
         }
+
         sql.pop_back(); sql.pop_back();
         sql += " WHERE id = ?";
 

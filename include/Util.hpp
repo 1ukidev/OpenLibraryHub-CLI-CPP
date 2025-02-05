@@ -17,4 +17,6 @@ public:
     static std::chrono::system_clock::time_point tpscan();
     static std::string timePointToString(const std::chrono::system_clock::time_point& tp,
                                          const std::string& format = "{:%d/%m/%Y}");
+    
+    static bool isNumber(const std::string& str);
 };

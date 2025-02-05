@@ -14,5 +14,5 @@ public:
 
 private:
     Home() = default;
-    ~Home() override = default;
+    ~Home() = default;
 };

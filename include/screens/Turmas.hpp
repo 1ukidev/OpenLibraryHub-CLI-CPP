@@ -20,7 +20,7 @@ public:
 
 private:
     Turmas() = default;
-    ~Turmas() override = default;
+    ~Turmas() = default;
 
     TurmaDAO& dao = TurmaDAO::getInstance();
 };

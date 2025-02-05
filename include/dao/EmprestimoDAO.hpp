@@ -12,5 +12,5 @@ public:
 
 private:
     EmprestimoDAO() = default;
-    ~EmprestimoDAO() override = default;
+    ~EmprestimoDAO() = default;
 };

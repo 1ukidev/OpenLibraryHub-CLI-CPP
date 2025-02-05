@@ -12,5 +12,5 @@ public:
 
 private:
     TurmaDAO() = default;
-    ~TurmaDAO() override = default;
+    ~TurmaDAO() = default;
 };

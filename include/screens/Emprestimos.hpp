@@ -20,7 +20,7 @@ public:
 
 private:
     Emprestimos() = default;
-    ~Emprestimos() override = default;
+    ~Emprestimos() = default;
 
     EmprestimoDAO& dao = EmprestimoDAO::getInstance();
 };

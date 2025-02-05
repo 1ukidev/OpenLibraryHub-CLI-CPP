@@ -12,5 +12,5 @@ public:
 
 private:
     LivroDAO() = default;
-    ~LivroDAO() override = default;
+    ~LivroDAO() = default;
 };

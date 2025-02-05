@@ -20,7 +20,7 @@ public:
 
 private:
     Alunos() = default;
-    ~Alunos() override = default;
+    ~Alunos() = default;
 
     AlunoDAO& dao = AlunoDAO::getInstance();
 };

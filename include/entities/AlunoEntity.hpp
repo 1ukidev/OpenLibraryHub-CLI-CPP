@@ -11,43 +11,32 @@ class AlunoEntity : public Entity
 {
 public:
     AlunoEntity() = default;
-    ~AlunoEntity() override = default;
+    ~AlunoEntity() = default;
 
     AlunoEntity(const std::string& nome, const TurmaEntity& turmaEntity)
-        : nome{nome}, turmaEntity{turmaEntity} {};
-    AlunoEntity(uint64_t id) : id{id} {};
+        : nome_{nome}, turmaEntity_{turmaEntity} {};
+    AlunoEntity(uint64_t id) : id_{id} {};
 
     std::string getClassName() const override { return "AlunoEntity"; }
     std::string getTable() const override { return "alunos"; }
 
-    const std::unordered_map<std::string, std::string> getColumns() const override {
-        return {
-            {"nome", nome},
-            {"turma", std::to_string(turmaEntity.getId())}
-        };
-    }
+    const std::unordered_map<std::string, std::string> getColumns() const override;
 
-    void fromRowSet(const boost::mysql::row_view& row) override {
-        if (!row.empty()) {
-            id = row[0].get_uint64();
-            nome = row[1].get_string();
-            turmaEntity.setId(row[2].get_uint64());
-        }
-    }
+    void fromRowSet(const boost::mysql::row_view& row) override;
 
-    uint64_t getId() const override { return id; }
-    void setId(uint64_t id) override { this->id = id; }
+    uint64_t getId() const override { return id_; }
+    void setId(uint64_t id) override { this->id_ = id; }
 
-    std::string getName() const { return nome; }
-    void setNome(const std::string& nome) { this->nome = nome; }
+    std::string getName() const { return nome_; }
+    void setNome(const std::string& nome) { this->nome_ = nome; }
 
-    const TurmaEntity& getTurmaEntity() const { return turmaEntity; }
-    void setTurmaEntity(const TurmaEntity& turmaEntity) { this->turmaEntity = turmaEntity; }
+    const TurmaEntity& getTurmaEntity() const { return turmaEntity_; }
+    void setTurmaEntity(const TurmaEntity& turmaEntity_) { this->turmaEntity_ = turmaEntity_; }
 
     std::string toString() const override;
 
 private:
-    uint64_t id{};
-    std::string nome;
-    TurmaEntity turmaEntity;
+    uint64_t id_{};
+    std::string nome_;
+    TurmaEntity turmaEntity_;
 };
