@@ -8,12 +8,6 @@
 #include <iostream>
 #include <vector>
 
-Emprestimos& Emprestimos::getInstance()
-{
-    static Emprestimos instance;
-    return instance;
-}
-
 void Emprestimos::display()
 {
     bool running = true;
@@ -121,10 +115,10 @@ void Emprestimos::update()
     std::cout << "Digite a nova data de devolução [DD/MM/YYYY]: ";
     auto dataDevolucao = Util::tpscan();
 
-    emprestimo.setLivroEntity(LivroEntity(livroId));
-    emprestimo.setAlunoEntity(AlunoEntity(alunoId));
-    emprestimo.setDataEmprestimo(dataEmprestimo);
-    emprestimo.setDataDevolucao(dataDevolucao);
+    emprestimo.livroEntity = LivroEntity(livroId);
+    emprestimo.alunoEntity = AlunoEntity(alunoId);
+    emprestimo.dataEmpresitmo = dataEmprestimo;
+    emprestimo.dataDevolucao = dataDevolucao;
 
     if (!dao.update(emprestimo)) {
         std::cerr << "Erro ao atualizar empréstimo...\n\n";

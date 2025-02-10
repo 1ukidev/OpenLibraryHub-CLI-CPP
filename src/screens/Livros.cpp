@@ -7,12 +7,6 @@
 #include <string>
 #include <vector>
 
-Livros& Livros::getInstance()
-{
-    static Livros instance;
-    return instance;
-}
-
 void Livros::display()
 {
     bool running = true;
@@ -131,12 +125,12 @@ void Livros::update()
     std::cout << "Digite a nova quantidade em estoque: ";
     uint64_t estoque = Util::uscan();
 
-    livro.setTitulo(titulo);
-    livro.setAutor(autor);
-    livro.setSecao(secao);
-    livro.setPaginas(paginas);
-    livro.setAno(ano);
-    livro.setEstoque(estoque);
+    livro.titulo = titulo;
+    livro.autor = autor;
+    livro.secao = secao;
+    livro.paginas = paginas;
+    livro.ano = ano;
+    livro.estoque = estoque;
 
     if (!dao.update(livro)) {
         std::cerr << "Erro ao atualizar livro...\n\n";

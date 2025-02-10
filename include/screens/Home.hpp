@@ -5,14 +5,9 @@
 class Home : public Screen
 {
 public:
-    Home(const Home&) = delete;
-    Home& operator=(const Home&) = delete;
-    static Home& getInstance();
+    Home() = default;
+    ~Home() = default;
 
     void display() override;
     bool handleOption() override;
-
-private:
-    Home() = default;
-    ~Home() = default;
 };

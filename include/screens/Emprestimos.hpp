@@ -6,9 +6,8 @@
 class Emprestimos : public CRUDScreen
 {
 public:
-    Emprestimos(const Emprestimos&) = delete;
-    Emprestimos& operator=(const Emprestimos&) = delete;
-    static Emprestimos& getInstance();
+    Emprestimos() = default;
+    ~Emprestimos() = default;
 
     void display() override;
     bool handleOption() override;
@@ -19,8 +18,5 @@ public:
     void list() override;
 
 private:
-    Emprestimos() = default;
-    ~Emprestimos() = default;
-
-    EmprestimoDAO& dao = EmprestimoDAO::getInstance();
+    EmprestimoDAO dao;
 };

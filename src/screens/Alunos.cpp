@@ -8,12 +8,6 @@
 #include <string>
 #include <vector>
 
-Alunos& Alunos::getInstance()
-{
-    static Alunos instance;
-    return instance;
-}
-
 void Alunos::display()
 {
     bool running = true;
@@ -108,8 +102,8 @@ void Alunos::update()
     std::cout << "Digite o novo id da turma: ";
     uint64_t turmaId = Util::uscan<uint64_t>();
 
-    aluno.setNome(nome);
-    aluno.setTurmaEntity(TurmaEntity(turmaId));
+    aluno.nome = nome;
+    aluno.turmaEntity = TurmaEntity(turmaId);
 
     if (!dao.update(aluno)) {
         std::cerr << "Erro ao atualizar aluno...\n\n";
