@@ -35,7 +35,7 @@ public:
             if (results.affected_rows() == 0)
                 return false;
             else
-                entity.setId(results.last_insert_id());
+                entity.id = results.last_insert_id();
         } catch (const std::exception& e) {
             std::cerr << e.what() << '\n';
             return false;
@@ -54,7 +54,7 @@ public:
             boost::mysql::statement stmt = db.connection.prepare_statement(sql);
 
             boost::mysql::results results;
-            db.connection.execute(stmt.bind(entity.getId()), results);
+            db.connection.execute(stmt.bind(entity.id), results);
 
             if (results.affected_rows() == 0)
                 return false;
@@ -115,7 +115,7 @@ public:
 
 private:
     std::string buildInsertQuery(const T& entity) {
-        const std::unordered_map<std::string, std::string> columns = entity.getColumns();
+        std::unordered_map<std::string, std::string> columns = entity.getColumns();
 
         std::string sql = "INSERT INTO " + entity.getTable() + " (";
         for (const auto& [column, _] : columns)

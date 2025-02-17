@@ -6,9 +6,8 @@
 class Livros : public CRUDScreen
 {
 public:
-    Livros(const Livros&) = delete;
-    Livros& operator=(const Livros&) = delete;
-    static Livros& getInstance();
+    Livros() = default;
+    ~Livros() = default;
 
     void display() override;
     bool handleOption() override;
@@ -19,8 +18,5 @@ public:
     void list() override;
 
 private:
-    Livros() = default;
-    ~Livros() = default;
-
-    LivroDAO& dao = LivroDAO::getInstance();
+    LivroDAO dao;
 };

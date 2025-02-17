@@ -8,12 +8,6 @@
 #include <iostream>
 #include <vector>
 
-Emprestimos& Emprestimos::getInstance()
-{
-    static Emprestimos instance;
-    return instance;
-}
-
 void Emprestimos::display()
 {
     bool running = true;
@@ -70,10 +64,10 @@ bool Emprestimos::handleOption()
 void Emprestimos::save()
 {
     std::cout << "Digite o id do livro: ";
-    uint64_t livroId = Util::uscan<uint64_t>();
+    std::uint64_t livroId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite o id do aluno: ";
-    uint64_t alunoId = Util::uscan<uint64_t>();
+    std::uint64_t alunoId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite a data de empréstimo [DD/MM/YYYY]: ";
     auto dataEmpresitmo = Util::tpscan();
@@ -110,10 +104,10 @@ void Emprestimos::update()
     EmprestimoEntity emprestimo = emprestimos[0];
 
     std::cout << "Digite o novo id do livro: ";
-    uint64_t livroId = Util::uscan<uint64_t>();
+    std::uint64_t livroId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite o novo id do aluno: ";
-    uint64_t alunoId = Util::uscan<uint64_t>();
+    std::uint64_t alunoId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite a nova data de empréstimo [DD/MM/YYYY]: ";
     auto dataEmprestimo = Util::tpscan();
@@ -121,10 +115,10 @@ void Emprestimos::update()
     std::cout << "Digite a nova data de devolução [DD/MM/YYYY]: ";
     auto dataDevolucao = Util::tpscan();
 
-    emprestimo.setLivroEntity(LivroEntity(livroId));
-    emprestimo.setAlunoEntity(AlunoEntity(alunoId));
-    emprestimo.setDataEmprestimo(dataEmprestimo);
-    emprestimo.setDataDevolucao(dataDevolucao);
+    emprestimo.livroEntity = LivroEntity(livroId);
+    emprestimo.alunoEntity = AlunoEntity(alunoId);
+    emprestimo.dataEmpresitmo = dataEmprestimo;
+    emprestimo.dataDevolucao = dataDevolucao;
 
     if (!dao.update(emprestimo)) {
         std::cerr << "Erro ao atualizar empréstimo...\n\n";

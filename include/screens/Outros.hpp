@@ -5,16 +5,12 @@
 class Outros : public Screen
 {
 public:
-    Outros(const Outros&) = delete;
-    Outros& operator=(const Outros&) = delete;
-    static Outros& getInstance();
+    Outros() = default;
+    ~Outros() = default;
 
     void display() override;
     bool handleOption() override;
 
 private:
-    Outros() = default;
-    ~Outros() = default;
-
     void about();
 };

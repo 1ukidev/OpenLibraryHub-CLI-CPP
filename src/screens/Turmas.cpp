@@ -6,12 +6,6 @@
 #include <string>
 #include <vector>
 
-Turmas& Turmas::getInstance()
-{
-    static Turmas instance;
-    return instance;
-}
-
 void Turmas::display()
 {
     bool running = true;
@@ -100,7 +94,7 @@ void Turmas::update()
     std::cout << "Digite o novo nome da turma: ";
     std::string nome = Util::scan();
 
-    turma.setNome(nome);
+    turma.nome = nome;
 
     if (!dao.update(turma)) {
         std::cerr << "Erro ao atualizar turma...\n\n";

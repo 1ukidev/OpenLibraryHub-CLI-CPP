@@ -18,7 +18,7 @@ int main()
         return EXIT_FAILURE;
     }
 
-    auto& home = Home::getInstance();
+    Home home;
     home.display();
 
     return EXIT_SUCCESS;

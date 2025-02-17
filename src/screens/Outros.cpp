@@ -3,12 +3,6 @@
 
 #include <iostream>
 
-Outros& Outros::getInstance()
-{
-    static Outros instance;
-    return instance;
-}
-
 void Outros::display()
 {
     bool running = true;

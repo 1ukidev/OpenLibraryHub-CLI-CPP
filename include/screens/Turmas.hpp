@@ -6,9 +6,8 @@
 class Turmas : public CRUDScreen
 {
 public:
-    Turmas(const Turmas&) = delete;
-    Turmas& operator=(const Turmas&) = delete;
-    static Turmas& getInstance();
+    Turmas() = default;
+    ~Turmas() = default;
 
     void display() override;
     bool handleOption() override;
@@ -19,8 +18,5 @@ public:
     void list() override;
 
 private:
-    Turmas() = default;
-    ~Turmas() = default;
-
-    TurmaDAO& dao = TurmaDAO::getInstance();
+    TurmaDAO dao;
 };

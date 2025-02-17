@@ -6,9 +6,8 @@
 class Alunos : public CRUDScreen
 {
 public:
-    Alunos(const Alunos&) = delete;
-    Alunos& operator=(const Alunos&) = delete;
-    static Alunos& getInstance();
+    Alunos() = default;
+    ~Alunos() = default;
 
     void display() override;
     bool handleOption() override;
@@ -18,9 +17,6 @@ public:
     void search() override;
     void list() override;
 
-private:
-    Alunos() = default;
-    ~Alunos() = default;
-
-    AlunoDAO& dao = AlunoDAO::getInstance();
+private:    
+    AlunoDAO dao;
 };

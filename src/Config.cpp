@@ -6,12 +6,6 @@
 #include <string>
 #include <fstream>
 
-Config& Config::getInstance()
-{
-    static Config instance;
-    return instance;
-}
-
 bool Config::load()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
@@ -54,7 +48,7 @@ bool Config::load()
 
 std::string Config::get(const std::string& key, const std::string& defaultValue) const
 {
-    const auto it = config.find(key);
+    auto it = config.find(key);
     return it != config.end() ? it->second : defaultValue;
 }
 
@@ -77,7 +71,7 @@ bool Config::initDbConfig()
 
 std::string Config::trim(const std::string& str)
 {
-    const size_t first = str.find_first_not_of(" \t\n\r");
-    const size_t last = str.find_last_not_of(" \t\n\r");
+    size_t first = str.find_first_not_of(" \t\n\r");
+    size_t last = str.find_last_not_of(" \t\n\r");
     return first == std::string::npos || last == std::string::npos ? "" : str.substr(first, last - first + 1);
 }

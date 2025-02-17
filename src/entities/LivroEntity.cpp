@@ -6,36 +6,36 @@
 
 std::string LivroEntity::toString() const
 {
-    return "Id: " + std::to_string(id_) + '\n' +
-           "Título: " + titulo_ + '\n' +
-           "Autor: " + autor_ + '\n' +
-           "Seção: " + secao_ + '\n' +
-           "Páginas: " + std::to_string(paginas_) + '\n' +
-           "Ano: " + std::to_string(ano_) + '\n' +
-           "Estoque: " + std::to_string(estoque_) + '\n';
+    return "Id: " + std::to_string(id) + '\n' +
+           "Título: " + titulo + '\n' +
+           "Autor: " + autor + '\n' +
+           "Seção: " + secao + '\n' +
+           "Páginas: " + std::to_string(paginas) + '\n' +
+           "Ano: " + std::to_string(ano) + '\n' +
+           "Estoque: " + std::to_string(estoque) + '\n';
 }
 
 const std::unordered_map<std::string, std::string> LivroEntity::getColumns() const
 {
     return {
-        {"titulo", titulo_},
-        {"autor", autor_},
-        {"secao", secao_},
-        {"paginas", std::to_string(paginas_)},
-        {"ano", std::to_string(ano_)},
-        {"estoque", std::to_string(estoque_)}
+        {"titulo", titulo},
+        {"autor", autor},
+        {"secao", secao},
+        {"paginas", std::to_string(paginas)},
+        {"ano", std::to_string(ano)},
+        {"estoque", std::to_string(estoque)}
     };
 }
 
 void LivroEntity::fromRowSet(const boost::mysql::row_view& row)
 {
     if (!row.empty()) {
-        id_ = row[0].get_uint64();
-        titulo_ = row[1].get_string();
-        autor_ = row[2].get_string();
-        secao_ = row[3].get_string();
-        paginas_ = row[4].get_uint64();
-        ano_ = row[5].get_uint64();
-        estoque_ = row[6].get_uint64();
+        id = row[0].get_uint64();
+        titulo = row[1].get_string();
+        autor = row[2].get_string();
+        secao = row[3].get_string();
+        paginas = row[4].get_uint64();
+        ano = row[5].get_uint64();
+        estoque = row[6].get_uint64();
     }
 }

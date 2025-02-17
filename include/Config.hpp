@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DbConfig.hpp"
+#include "Util.hpp"
 
 #include <map>
 #include <string>
@@ -8,9 +9,7 @@
 class Config
 {
 public:
-    Config(const Config&) = delete;
-    Config& operator=(const Config&) = delete;
-    static Config& getInstance();
+    DECLARE_SINGLETON(Config)
 
     bool load();
     std::string get(const std::string& key, const std::string& defaultValue = "") const;

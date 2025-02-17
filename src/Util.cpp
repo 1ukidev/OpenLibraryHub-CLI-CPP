@@ -55,7 +55,7 @@ T Util::uscan()
 {
     static_assert(std::is_unsigned<T>::value, "O tipo deve ser um número unsigned.");
 
-    uint64_t input;
+    std::uint64_t input;
     while (true) {
         std::cin >> input;
 
@@ -77,7 +77,7 @@ T Util::uscan()
 }
 
 template unsigned int Util::uscan();
-template uint64_t Util::uscan<uint64_t>();
+template std::uint64_t Util::uscan<std::uint64_t>();
 
 std::chrono::system_clock::time_point Util::tpscan()
 {

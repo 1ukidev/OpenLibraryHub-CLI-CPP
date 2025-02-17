@@ -7,12 +7,6 @@
 #include <string>
 #include <vector>
 
-Livros& Livros::getInstance()
-{
-    static Livros instance;
-    return instance;
-}
-
 void Livros::display()
 {
     bool running = true;
@@ -78,13 +72,13 @@ void Livros::save()
     std::string secao = Util::scan();
 
     std::cout << "Digite o número de páginas: ";
-    uint64_t paginas = Util::uscan();
+    std::uint64_t paginas = Util::uscan();
 
     std::cout << "Digite o ano de publicação: ";
-    uint64_t ano = Util::uscan();
+    std::uint64_t ano = Util::uscan();
 
     std::cout << "Digite a quantidade em estoque: ";
-    uint64_t estoque = Util::uscan();
+    std::uint64_t estoque = Util::uscan();
 
     LivroEntity livro(titulo, autor, secao, paginas, ano, estoque);
 
@@ -123,20 +117,20 @@ void Livros::update()
     std::string secao = Util::scan();
 
     std::cout << "Digite o novo número de páginas: ";
-    uint64_t paginas = Util::uscan();
+    std::uint64_t paginas = Util::uscan();
 
     std::cout << "Digite o novo ano de publicação: ";
-    uint64_t ano = Util::uscan();
+    std::uint64_t ano = Util::uscan();
 
     std::cout << "Digite a nova quantidade em estoque: ";
-    uint64_t estoque = Util::uscan();
+    std::uint64_t estoque = Util::uscan();
 
-    livro.setTitulo(titulo);
-    livro.setAutor(autor);
-    livro.setSecao(secao);
-    livro.setPaginas(paginas);
-    livro.setAno(ano);
-    livro.setEstoque(estoque);
+    livro.titulo = titulo;
+    livro.autor = autor;
+    livro.secao = secao;
+    livro.paginas = paginas;
+    livro.ano = ano;
+    livro.estoque = estoque;
 
     if (!dao.update(livro)) {
         std::cerr << "Erro ao atualizar livro...\n\n";
