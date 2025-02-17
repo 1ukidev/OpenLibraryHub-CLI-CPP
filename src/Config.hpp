@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 
-class Config
+class Config final
 {
 public:
     DECLARE_SINGLETON(Config)

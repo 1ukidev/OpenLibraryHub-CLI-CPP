@@ -72,13 +72,13 @@ void Livros::save()
     std::string secao = Util::scan();
 
     std::cout << "Digite o número de páginas: ";
-    std::uint64_t paginas = Util::uscan();
+    auto paginas = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite o ano de publicação: ";
-    std::uint64_t ano = Util::uscan();
+    auto ano = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite a quantidade em estoque: ";
-    std::uint64_t estoque = Util::uscan();
+    auto estoque = Util::uscan<std::uint64_t>();
 
     LivroEntity livro(titulo, autor, secao, paginas, ano, estoque);
 
@@ -117,13 +117,13 @@ void Livros::update()
     std::string secao = Util::scan();
 
     std::cout << "Digite o novo número de páginas: ";
-    std::uint64_t paginas = Util::uscan();
+    auto paginas = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite o novo ano de publicação: ";
-    std::uint64_t ano = Util::uscan();
+    auto ano = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite a nova quantidade em estoque: ";
-    std::uint64_t estoque = Util::uscan();
+    auto estoque = Util::uscan<std::uint64_t>();
 
     livro.titulo = titulo;
     livro.autor = autor;

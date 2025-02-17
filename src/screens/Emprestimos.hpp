@@ -1,13 +1,13 @@
 #pragma once
 
-#include "dao/LivroDAO.hpp"
+#include "dao/EmprestimoDAO.hpp"
 #include "screens/CRUDScreen.hpp"
 
-class Livros : public CRUDScreen
+class Emprestimos final : public CRUDScreen
 {
 public:
-    Livros() = default;
-    ~Livros() = default;
+    Emprestimos() = default;
+    ~Emprestimos() = default;
 
     void display() override;
     bool handleOption() override;
@@ -18,5 +18,5 @@ public:
     void list() override;
 
 private:
-    LivroDAO dao;
+    EmprestimoDAO dao;
 };

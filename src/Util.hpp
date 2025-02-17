@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <string>
+#include <string_view>
 
 #define DECLARE_SINGLETON(ClassName)                 \
     ClassName(const ClassName&) = delete;            \
@@ -11,7 +12,7 @@
         return instance;                             \
     }
 
-class Util
+class Util final
 {
 public:
     Util() = delete;
@@ -26,5 +27,5 @@ public:
     static std::string timePointToString(const std::chrono::system_clock::time_point& tp,
                                          const std::string& format = "{:%d/%m/%Y}");
 
-    static bool isNumber(const std::string& str);
+    static bool isNumber(std::string_view str);
 };

@@ -3,7 +3,7 @@
 #include "dao/DAO.hpp"
 #include "entities/EmprestimoEntity.hpp"
 
-class EmprestimoDAO : public DAO<EmprestimoEntity>
+class EmprestimoDAO final : public DAO<EmprestimoEntity>
 {
 public:
     EmprestimoDAO() = default;

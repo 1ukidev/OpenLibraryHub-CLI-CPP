@@ -2,12 +2,15 @@
 
 #include "screens/Screen.hpp"
 
-class Home : public Screen
+class Outros final : public Screen
 {
 public:
-    Home() = default;
-    ~Home() = default;
+    Outros() = default;
+    ~Outros() = default;
 
     void display() override;
     bool handleOption() override;
+
+private:
+    void about();
 };

@@ -7,15 +7,15 @@
 #include <chrono>
 #include <cstdint>
 
-class EmprestimoEntity : public Entity
+class EmprestimoEntity final : public Entity
 {
 public:
     EmprestimoEntity() = default;
     ~EmprestimoEntity() = default;
 
     EmprestimoEntity(const LivroEntity& livroEntity, const AlunoEntity& alunoEntity,
-               const std::chrono::system_clock::time_point& dataEmpresitmo,
-               const std::chrono::system_clock::time_point& dataDevolucao)
+                     const std::chrono::system_clock::time_point& dataEmpresitmo,
+                     const std::chrono::system_clock::time_point& dataDevolucao)
         : livroEntity(livroEntity), alunoEntity(alunoEntity),
           dataEmpresitmo(dataEmpresitmo), dataDevolucao(dataDevolucao) {};
 

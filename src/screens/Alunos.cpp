@@ -67,7 +67,7 @@ void Alunos::save()
     std::string nome = Util::scan();
 
     std::cout << "Digite o id da turma: ";
-    std::uint64_t turmaId = Util::uscan<std::uint64_t>();
+    auto turmaId = Util::uscan<std::uint64_t>();
 
     AlunoEntity aluno(nome, TurmaEntity(turmaId));
 
@@ -100,7 +100,7 @@ void Alunos::update()
     std::string nome = Util::scan();
 
     std::cout << "Digite o novo id da turma: ";
-    std::uint64_t turmaId = Util::uscan<std::uint64_t>();
+    auto turmaId = Util::uscan<std::uint64_t>();
 
     aluno.nome = nome;
     aluno.turmaEntity = TurmaEntity(turmaId);

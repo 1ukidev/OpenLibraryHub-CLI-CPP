@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <string>
 
-class AlunoEntity : public Entity
+class AlunoEntity final : public Entity
 {
 public:
     AlunoEntity() = default;

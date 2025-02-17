@@ -2,7 +2,7 @@
 
 #include <string>
 
-struct DbConfig
+struct DbConfig final
 {
     std::string host;
     std::string port;

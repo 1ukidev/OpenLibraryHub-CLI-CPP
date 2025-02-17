@@ -1,13 +1,13 @@
 #pragma once
 
-#include "dao/TurmaDAO.hpp"
+#include "dao/AlunoDAO.hpp"
 #include "screens/CRUDScreen.hpp"
 
-class Turmas : public CRUDScreen
+class Alunos final : public CRUDScreen
 {
 public:
-    Turmas() = default;
-    ~Turmas() = default;
+    Alunos() = default;
+    ~Alunos() = default;
 
     void display() override;
     bool handleOption() override;
@@ -17,6 +17,6 @@ public:
     void search() override;
     void list() override;
 
-private:
-    TurmaDAO dao;
+private:    
+    AlunoDAO dao;
 };

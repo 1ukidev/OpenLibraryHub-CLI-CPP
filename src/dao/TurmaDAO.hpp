@@ -3,7 +3,7 @@
 #include "dao/DAO.hpp"
 #include "entities/TurmaEntity.hpp"
 
-class TurmaDAO : public DAO<TurmaEntity>
+class TurmaDAO final : public DAO<TurmaEntity>
 {
 public:
     TurmaDAO() = default;

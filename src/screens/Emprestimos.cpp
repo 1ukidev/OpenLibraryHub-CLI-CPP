@@ -64,10 +64,10 @@ bool Emprestimos::handleOption()
 void Emprestimos::save()
 {
     std::cout << "Digite o id do livro: ";
-    std::uint64_t livroId = Util::uscan<std::uint64_t>();
+    auto livroId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite o id do aluno: ";
-    std::uint64_t alunoId = Util::uscan<std::uint64_t>();
+    auto alunoId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite a data de empréstimo [DD/MM/YYYY]: ";
     auto dataEmpresitmo = Util::tpscan();
@@ -104,10 +104,10 @@ void Emprestimos::update()
     EmprestimoEntity emprestimo = emprestimos[0];
 
     std::cout << "Digite o novo id do livro: ";
-    std::uint64_t livroId = Util::uscan<std::uint64_t>();
+    auto livroId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite o novo id do aluno: ";
-    std::uint64_t alunoId = Util::uscan<std::uint64_t>();
+    auto alunoId = Util::uscan<std::uint64_t>();
 
     std::cout << "Digite a nova data de empréstimo [DD/MM/YYYY]: ";
     auto dataEmprestimo = Util::tpscan();

@@ -5,15 +5,15 @@
 #include <cstdint>
 #include <string>
 
-class LivroEntity : public Entity
+class LivroEntity final : public Entity
 {
 public:
     LivroEntity() = default;
     ~LivroEntity() = default;
 
     LivroEntity(const std::string& titulo, const std::string& autor,
-               const std::string& secao, std::uint64_t paginas,
-               std::uint64_t ano, std::uint64_t estoque)
+                const std::string& secao, std::uint64_t paginas,
+                std::uint64_t ano, std::uint64_t estoque)
         : titulo{titulo}, autor{autor}, secao{secao},
           paginas{paginas}, ano{ano}, estoque{estoque} {};
     LivroEntity(std::uint64_t id) : id{id} {};

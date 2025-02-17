@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <string>
 
-class TurmaEntity : public Entity
+class TurmaEntity final : public Entity
 {
 public:
     TurmaEntity() = default;

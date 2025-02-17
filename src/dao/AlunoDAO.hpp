@@ -3,7 +3,7 @@
 #include "dao/DAO.hpp"
 #include "entities/AlunoEntity.hpp"
 
-class AlunoDAO : public DAO<AlunoEntity>
+class AlunoDAO final : public DAO<AlunoEntity>
 {
 public:
     AlunoDAO() = default;

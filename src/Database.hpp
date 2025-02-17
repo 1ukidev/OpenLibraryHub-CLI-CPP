@@ -5,7 +5,7 @@
 #include <boost/mysql/tcp_ssl.hpp>
 #include <string>
 
-class Database
+class Database final
 {
 private:
     boost::asio::io_context ioContext_;
